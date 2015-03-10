@@ -10,3 +10,5 @@ insecure
 less
 coffeescript
 mquandalle:jade
+iron:router
+aldeed:collection2
