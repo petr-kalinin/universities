@@ -1,4 +1,4 @@
-Template.home.helpers
-  universities: ->
-    UniversitiesCollection.find {}, sort: {name: 1}
+Template.universityShort.events
+    "click .delete": ->
+        UniversitiesCollection.remove this._id
 

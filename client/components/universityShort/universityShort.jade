@@ -1,3 +1,5 @@
 template(name='universityShort')
   li
-    =name
+    button.delete &times;
+    a(href="university/{{_id}}")
+        =name
