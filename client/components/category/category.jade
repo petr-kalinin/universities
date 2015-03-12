@@ -1,0 +1,10 @@
+template(name='category')
+  li
+    =name
+    ul
+      li
+        form.new-comment
+          input(type="text",name="text",placeholder="Добавить категорию")
+      +each subCategory
+        +category
+
