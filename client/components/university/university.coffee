@@ -10,3 +10,4 @@ Template.university.events
 Template.university.helpers
     comments: ->
         CommentsCollection.find university: this._id
+        #CommentsCollection.find university: Router.current().setId
