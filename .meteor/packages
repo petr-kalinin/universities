@@ -12,3 +12,5 @@ coffeescript
 mquandalle:jade
 iron:router
 aldeed:collection2
+mrt:accounts-vk
+accounts-ui

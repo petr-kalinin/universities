@@ -4,6 +4,7 @@ Template.categoryInUniversity.events
         CommentsCollection.insert
             category: this.category._id
             university: this.university
+            author: Meteor.userId()
             text: text
         event.target.text.value = ""
         false;
@@ -21,4 +22,8 @@ Template.categoryInUniversity.helpers
                 category: this.category._id
         else
             false
+    userName: ->
+        uId = Meteor.userId()
+        UsersCollection.findOne(uId)?.profile.name
+        
 

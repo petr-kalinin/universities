@@ -1,0 +1,1 @@
+@UsersCollection = Meteor.users
