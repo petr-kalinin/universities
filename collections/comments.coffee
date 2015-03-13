@@ -4,6 +4,8 @@ commentsSchema = SimpleSchema.build SimpleSchema.timestamp,
     index: true
   'text':
     type: String
+  'category':
+    type: String
 
 # регистрируем коллекцию и добавляем схему
 Comments = new Mongo.Collection 'comments'

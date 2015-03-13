@@ -2,9 +2,7 @@ template(name='university')
   a(href="/") Back
   h1
     =name
-  ul.comments
-    +each comments
-      +comment
-  form.new-comment
-    input(type="text",name="text",placeholder="Введите комментарий")
+  ul
+    +each categories
+      +categoryInUniversity category=this university=../_id
 

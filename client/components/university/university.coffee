@@ -8,6 +8,10 @@ Template.university.events
         false;
 
 Template.university.helpers
-    comments: ->
-        CommentsCollection.find university: this._id
-        #CommentsCollection.find university: Router.current().setId
+    categories: ->
+        root = CategoriesCollection.findOne parent: ""
+        if root
+            CategoriesCollection.find parent: root._id
+        else
+            false
+
