@@ -1,6 +1,7 @@
 Template.comment.events
     "click .delete": ->
-        CommentsCollection.remove this._id
+        if Meteor.userId() == this.author
+            CommentsCollection.remove this._id
 
 Template.comment.helpers
     authorName: ->
