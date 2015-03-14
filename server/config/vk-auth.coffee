@@ -1,8 +1,11 @@
-ServiceConfiguration.configurations.remove
-    service: 'vk'
+Meteor.startup ->
+    vkdata = AuthparamsCollection.findOne({service: "vk"})
 
-ServiceConfiguration.configurations.insert
-    service: 'vk'
-    appId:   '4825972'
-    secret:  ''  # to be inserted from database later
+    ServiceConfiguration.configurations.remove
+        service: 'vk'
+
+    ServiceConfiguration.configurations.insert
+        service: 'vk'
+        appId:   vkdata.appId
+        secret:  vkdata.secret
 
