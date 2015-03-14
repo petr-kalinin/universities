@@ -1,5 +1,5 @@
 template(name='universityShort')
-  li
-    button.delete &times;
-    a(href="university/{{_id}}")
+    a.list-group-item(href="university/{{_id}}")
         =name
+        button.close.delete(title="Удалить") &times;
+        

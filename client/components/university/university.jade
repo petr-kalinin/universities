@@ -1,8 +1,7 @@
 template(name='university')
-  a(href="/") Back
   h1
     =name
-  ul
+  ul.list-group
     +each categories
       +categoryInUniversity category=this university=../_id
 

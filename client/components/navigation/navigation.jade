@@ -1,0 +1,15 @@
+template(name='navigation')
+    .container
+        nav.navbar.navbar-default
+            .container-fluid
+                .navbar-header
+                    a.navbar-brand(href="/") Обзор университетов
+                #navbar
+                    ul.nav.navbar-nav
+                        li.active 
+                            a(href="/") Университеты
+                    .nav.navbar-right 
+                        p.navbar-login
+                            +loginButtons
+                    
+    

@@ -1,13 +1,14 @@
 template(name='categoryInUniversity')
-  li
-    =category.name
-    ul
+  li.list-group-item
+    .h4
+        =category.name
+    ul.list-group
       +each subCategory
         +categoryInUniversity category=this university=../university
       if isLeaf
         +each comments
           +comment
         form.new-comment
-            input(type="text",name="text",placeholder="Введите комментарий")
+            textarea.form-control(type="text",name="text",placeholder="Введите комментарий")
 
 
