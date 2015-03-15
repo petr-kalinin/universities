@@ -27,3 +27,6 @@ Template.categoryInUniversity.helpers
         UsersCollection.findOne(uId)?.profile.name
         
 
+Template.categoryInUniversity.rendered = ->
+    autosize(document.querySelectorAll('textarea'));
+#    document.querySelectorAll('textarea').autosize().show().trigger('autosize.resize');
