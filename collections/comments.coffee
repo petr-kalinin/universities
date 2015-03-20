@@ -13,4 +13,8 @@ commentsSchema = SimpleSchema.build SimpleSchema.timestamp,
 Comments = new Mongo.Collection 'comments'
 Comments.attachSchema commentsSchema
 
+Comments.allow
+    insert: (userId, doc) ->
+        userId && true
+
 @CommentsCollection = Comments

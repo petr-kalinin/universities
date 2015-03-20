@@ -1,4 +1,14 @@
 Template.categoryInUniversity.events
+    "keydown": (event) ->
+        if (event.keyCode == 13)&&(event.ctrlKey)
+            text = event.target.value
+            CommentsCollection.insert
+                category: this.category._id
+                university: this.university
+                author: Meteor.userId()
+                text: text
+            event.target.value = ""
+            false;
     "submit": (event) ->
         text = event.target.text.value
         CommentsCollection.insert
