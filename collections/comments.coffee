@@ -16,5 +16,7 @@ Comments.attachSchema commentsSchema
 Comments.allow
     insert: (userId, doc) ->
         userId && true
-
+    remove: (userId, doc) ->
+        userId && userId == doc.author
+        
 @CommentsCollection = Comments
