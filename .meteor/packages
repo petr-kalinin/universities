@@ -14,3 +14,5 @@ mrt:accounts-vk
 accounts-ui
 nemo64:bootstrap
 velocity:html-reporter
+sanjo:jasmine
+dburles:collection-helpers
