@@ -1,1 +1,4 @@
 t
+#these files are automatically created by testing framework
+packages
+package*.js

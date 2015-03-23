@@ -14,5 +14,19 @@ _.extend Universities,
     create: (name) ->
         Universities.insert
             name: name
+            
+if Meteor.isServer
+    Meteor.methods
+        UniversityRemove: (id) ->
+            comment = CommentsCollection.findOne university: id
+            if comment?
+                throw new Meteor.Error "cant-delete", "The university has comments"
+            Universities.remove
+                id: id
+            
+Universities.helpers
+    remove: (callback) ->
+        Meteor.call("UniversityRemove", this._id, callback)
+            
 
 @UniversitiesCollection = Universities

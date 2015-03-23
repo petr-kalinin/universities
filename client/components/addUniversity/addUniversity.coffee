@@ -1,6 +1,6 @@
 Template.addUniversity.events
   "submit .new-university": (event) ->
     name = event.target.name.value
-    UniversitiesCollection.insert name: name
+    UniversitiesCollection.create name
     event.target.name.value = ""
     false
