@@ -8,7 +8,7 @@ describe "University", ->
         expect(Universities.insert).toHaveBeenCalledWith
             name: "University 1"
                 
-    it "should be able to delete a university without comments", (done) ->
+    it "should be able to delete a university without comments", ->
         spyOn UniversitiesCollection, "remove" 
             .and.returnValue true
         spyOn CommentsCollection, "findOne"
@@ -16,23 +16,25 @@ describe "University", ->
         
         univ = UniversitiesCollection._transform name: "Test", _id: "000"
         expect(univ).toBeDefined()
-        univ.remove (error, result) ->
-            expect(error).toBeNull()
-            expect(CommentsCollection.findOne).toHaveBeenCalledWith university: "000"
-            expect(UniversitiesCollection.remove).toHaveBeenCalledWith id: "000"
-            done()
+        expect(univ.canDelete()).toBe(true)
+        univ.remove() 
+        expect(CommentsCollection.findOne).toHaveBeenCalledWith university: "000"
+        expect(UniversitiesCollection.remove).toHaveBeenCalledWith id: "000"
         
-    it "should not be able to delete a university with comments", (done) ->
+    it "should not be able to delete a university with comments", ->
         spyOn UniversitiesCollection, "remove" 
             .and.returnValue true
         spyOn CommentsCollection, "findOne"
-            .and.returnValue 1
+            .and.returnValue "foo"
         
         univ = UniversitiesCollection._transform name: "Test", _id: "000"
         expect(univ).toBeDefined()
-        univ.remove (error, result) ->
+        expect(univ.canDelete()).toBe(false)
+        try
+            univ.remove()
+        catch error
             expect(error.error).toBe("cant-delete")
-            expect(CommentsCollection.findOne).toHaveBeenCalledWith university: "000"
-            expect(UniversitiesCollection.remove).not.toHaveBeenCalled
-            done()
+        expect(univ.remove).toThrow();
+        expect(CommentsCollection.findOne).toHaveBeenCalledWith university: "000"
+        expect(UniversitiesCollection.remove).not.toHaveBeenCalled
         

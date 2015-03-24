@@ -15,18 +15,19 @@ _.extend Universities,
         Universities.insert
             name: name
             
-if Meteor.isServer
-    Meteor.methods
-        UniversityRemove: (id) ->
-            comment = CommentsCollection.findOne university: id
-            if comment?
-                throw new Meteor.Error "cant-delete", "The university has comments"
-            Universities.remove
-                id: id
-            
 Universities.helpers
+    canDelete: ->
+        comment = CommentsCollection.findOne university: this._id
+        if comment?
+            return false
+        else
+            return true
+
     remove: (callback) ->
-        Meteor.call("UniversityRemove", this._id, callback)
+        if not this.canDelete()
+            throw new Meteor.Error "cant-delete", "The university has comments"
+        Universities.remove
+            id: this._id
             
 
 @UniversitiesCollection = Universities
