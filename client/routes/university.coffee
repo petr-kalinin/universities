@@ -7,5 +7,5 @@ class @UniversityController extends RouteController
         
     data: ->
         uId = this.params.id
-        UniversitiesCollection.findOne _id: uId
+        UniversitiesCollection.findById uId
     
