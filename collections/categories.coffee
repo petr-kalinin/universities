@@ -9,4 +9,11 @@ categoriesSchema = SimpleSchema.build SimpleSchema.timestamp,
 Categories = new Mongo.Collection 'categories'
 Categories.attachSchema categoriesSchema
 
+_.extend Categories,
+    create: (name, parent) ->
+        Categories.insert
+            name: name
+            parent: parent
+
+
 @CategoriesCollection = Categories
