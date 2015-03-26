@@ -1,4 +1,4 @@
 Template.home.helpers
   universities: ->
-    UniversitiesCollection.findAll()
+    Universities.findAll(true)
 

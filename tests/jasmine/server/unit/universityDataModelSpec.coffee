@@ -1,33 +1,33 @@
 describe "University", ->
     it "should be created with name", ->
-        spyOn UniversitiesCollection, "insert"
+        spyOn Universities.collection, "insert"
             .and.returnValue true
 
-        UniversitiesCollection.create "University 1"
+        Universities.create "University 1"
  
-        expect(Universities.insert).toHaveBeenCalledWith
+        expect(Universities.collection.insert).toHaveBeenCalledWith
             name: "University 1"
                 
     it "should be able to delete a university without comments", ->
-        spyOn UniversitiesCollection, "remove" 
+        spyOn Universities.collection, "remove" 
             .and.returnValue true
         spyOn CommentsCollection, "findOne"
             .and.returnValue null
         
-        univ = UniversitiesCollection._transform name: "Test", _id: "000"
+        univ = Universities.collection._transform name: "Test", _id: "000"
         expect(univ).toBeDefined()
         expect(univ.canDelete()).toBe(true)
         univ.remove() 
         expect(CommentsCollection.findOne).toHaveBeenCalledWith university: "000"
-        expect(UniversitiesCollection.remove).toHaveBeenCalledWith "000"
+        expect(Universities.collection.remove).toHaveBeenCalledWith "000"
         
     it "should not be able to delete a university with comments", ->
-        spyOn UniversitiesCollection, "remove" 
+        spyOn Universities.collection, "remove" 
             .and.returnValue true
         spyOn CommentsCollection, "findOne"
             .and.returnValue "foo"
         
-        univ = UniversitiesCollection._transform name: "Test", _id: "000"
+        univ = Universities.collection._transform name: "Test", _id: "000"
         expect(univ).toBeDefined()
         expect(univ.canDelete()).toBe(false)
         try
@@ -36,22 +36,31 @@ describe "University", ->
             expect(error.error).toBe("cant-delete")
         expect(univ.remove).toThrow();
         expect(CommentsCollection.findOne).toHaveBeenCalledWith university: "000"
-        expect(UniversitiesCollection.remove).not.toHaveBeenCalled
+        expect(Universities.collection.remove).not.toHaveBeenCalled
 
     it "should be able to find all universities", ->
-        spyOn UniversitiesCollection, "find"
+        spyOn Universities.collection, "find"
             .and.returnValue "foo"
         
-        result = UniversitiesCollection.findAll()
+        result = Universities.findAll()
         
         expect(result).toBe("foo")
-        expect(UniversitiesCollection.find).toHaveBeenCalledWith {}, sort: {name: 1}
+        expect(Universities.collection.find).toHaveBeenCalledWith {}, {}
+
+    it "should be able to find all sorted universities", ->
+        spyOn Universities.collection, "find"
+            .and.returnValue "foo"
+        
+        result = Universities.findAll(true)
+        
+        expect(result).toBe("foo")
+        expect(Universities.collection.find).toHaveBeenCalledWith {}, sort: {name: 1}
 
     it "should be able to find universities by its id", ->
-        spyOn UniversitiesCollection, "findOne"
+        spyOn Universities.collection, "findOne"
             .and.returnValue "foo"
         
-        result = UniversitiesCollection.findById("bar")
+        result = Universities.findById("bar")
         
         expect(result).toBe("foo")
-        expect(UniversitiesCollection.findOne).toHaveBeenCalledWith _id: "bar"
+        expect(Universities.collection.findOne).toHaveBeenCalledWith _id: "bar"

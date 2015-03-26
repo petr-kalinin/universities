@@ -1,2 +1,2 @@
 Meteor.publish 'universities', ->
-    UniversitiesCollection.find {}
+    Universities.findAll()

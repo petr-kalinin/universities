@@ -3,29 +3,18 @@ universitiesSchema = SimpleSchema.build SimpleSchema.timestamp,
     type: String
     index: true
 
-Universities = new Mongo.Collection 'universities'
-Universities.attachSchema universitiesSchema
+UniversitiesCollection = new Mongo.Collection 'universities'
+UniversitiesCollection.attachSchema universitiesSchema
 
-Universities.allow
+UniversitiesCollection.allow
     insert: (userId, doc) ->
         userId && true
     
     remove: (userId, doc) ->
-        doc = Universities._transform doc
+        doc = UniversitiesCollection._transform doc
         userId && doc.canDelete()
-        
-_.extend Universities,
-    create: (name) ->
-        Universities.insert
-            name: name
-            
-    findAll: ->
-        Universities.find {}, sort: {name: 1}
 
-    findById: (id) ->
-        Universities.findOne _id: id
-            
-Universities.helpers
+UniversitiesCollection.helpers
     canDelete: ->
         comment = CommentsCollection.findOne university: this._id
         if comment?
@@ -36,7 +25,24 @@ Universities.helpers
     remove: ->
         if not this.canDelete()
             throw new Meteor.Error "cant-delete", "The university has comments"
-        Universities.remove(this._id)
+        Universities.collection.remove(this._id)
+        
+Universities =
+    create: (name) ->
+        @collection.insert
+            name: name
+            
+    findAll: (sorted = false) ->
+        arg = {}
+        if (sorted)
+            arg = sort: {name: 1}
+        @collection.find {}, arg
+
+    findById: (id) ->
+        @collection.findOne _id: id
+        
+    collection: UniversitiesCollection
+            
             
 
-@UniversitiesCollection = Universities
+@Universities = Universities
