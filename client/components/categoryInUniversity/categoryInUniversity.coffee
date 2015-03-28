@@ -2,22 +2,14 @@ Template.categoryInUniversity.events
     "keydown": (event) ->
         if (event.keyCode == 13)&&(event.ctrlKey)
             text = event.target.value
-            CommentsCollection.insert
-                category: this.category._id
-                university: this.university
-                author: Meteor.userId()
-                text: text
+            Comments.create this.university, this.category, text, Meteor.user()
             event.target.value = ""
-            false;
+            false
     "submit": (event) ->
         text = event.target.text.value
-        CommentsCollection.insert
-            category: this.category._id
-            university: this.university
-            author: Meteor.userId()
-            text: text
+        Comments.create this.university, this.category, text, Meteor.user()
         event.target.text.value = ""
-        false;
+        false
 
 Template.categoryInUniversity.helpers
     subCategory: ->
@@ -25,12 +17,7 @@ Template.categoryInUniversity.helpers
     isLeaf: ->
         this.category.isLeaf()
     comments: ->
-        if this.university
-            CommentsCollection.find 
-                "university": this.university 
-                category: this.category._id
-        else
-            false
+        Comments.find this.university, this.category
     userName: ->
         uId = Meteor.userId()
         UsersCollection.findOne(uId)?.profile.name

@@ -1,3 +1,3 @@
 Meteor.publish 'comments', ->
-    CommentsCollection.find {}
+    Comments.findAll()
 

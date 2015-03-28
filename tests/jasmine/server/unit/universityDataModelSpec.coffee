@@ -11,20 +11,20 @@ describe "University", ->
     it "should be able to delete a university without comments", ->
         spyOn Universities.collection, "remove" 
             .and.returnValue true
-        spyOn CommentsCollection, "findOne"
+        spyOn Comments, "findOneByUniversity"
             .and.returnValue null
         
         univ = Universities.collection._transform name: "Test", _id: "000"
         expect(univ).toBeDefined()
         expect(univ.canDelete()).toBe(true)
         univ.remove() 
-        expect(CommentsCollection.findOne).toHaveBeenCalledWith university: "000"
+        expect(Comments.findOneByUniversity).toHaveBeenCalledWith univ
         expect(Universities.collection.remove).toHaveBeenCalledWith "000"
         
     it "should not be able to delete a university with comments", ->
         spyOn Universities.collection, "remove" 
             .and.returnValue true
-        spyOn CommentsCollection, "findOne"
+        spyOn Comments, "findOneByUniversity"
             .and.returnValue "foo"
         
         univ = Universities.collection._transform name: "Test", _id: "000"
@@ -34,8 +34,7 @@ describe "University", ->
             univ.remove()
         catch error
             expect(error.error).toBe("cant-delete")
-        expect(univ.remove).toThrow();
-        expect(CommentsCollection.findOne).toHaveBeenCalledWith university: "000"
+        expect(Comments.findOneByUniversity).toHaveBeenCalledWith univ
         expect(Universities.collection.remove).not.toHaveBeenCalled
 
     it "should be able to find all universities", ->

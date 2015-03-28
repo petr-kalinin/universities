@@ -16,7 +16,7 @@ UniversitiesCollection.allow
         
 UniversitiesCollection.helpers "universities",
     canDelete: ->
-        comment = CommentsCollection.findOne university: this._id
+        comment = Comments.findOneByUniversity this
         if comment?
             return false
         else

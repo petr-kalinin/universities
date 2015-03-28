@@ -1,6 +1,6 @@
 Template.comment.events
     "click .delete": ->
-        CommentsCollection.remove this._id
+        this.remove()
 
 Template.comment.helpers
     authorName: ->

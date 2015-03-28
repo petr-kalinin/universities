@@ -1,3 +1,2 @@
 Meteor.publish 'universityComments', (universityId) ->
-    CommentsCollection.find 
-        "university": universityId
+    Comments.findByUniversity(Universities.findById(universityId))
