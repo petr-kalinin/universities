@@ -21,10 +21,9 @@ Template.categoryInUniversity.events
 
 Template.categoryInUniversity.helpers
     subCategory: ->
-        CategoriesCollection.find parent: this.category._id
+        this.category.findChildren()
     isLeaf: ->
-        found = CategoriesCollection.findOne parent: this.category._id # better use count()? on server?
-        !found
+        this.category.isLeaf()
     comments: ->
         if this.university
             CommentsCollection.find 

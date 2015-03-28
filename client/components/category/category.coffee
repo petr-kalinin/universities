@@ -1,7 +1,7 @@
 Template.category.events
     "submit": (event) ->
         name = event.target.text.value
-        CategoriesCollection.insert
+        Categories.create
             parent: this._id,
             name: name
         event.target.text.value = ""
@@ -9,5 +9,4 @@ Template.category.events
 
 Template.category.helpers
     subCategory: ->
-        CategoriesCollection.find parent: this._id
-        #CommentsCollection.find university: Router.current().setId
+        this.findChildren()

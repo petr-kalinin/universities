@@ -9,9 +9,5 @@ Template.university.events
 
 Template.university.helpers
     categories: ->
-        root = CategoriesCollection.findOne parent: ""
-        if root
-            CategoriesCollection.find parent: root._id
-        else
-            false
+        Categories.findTopLevel()
 

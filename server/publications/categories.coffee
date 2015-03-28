@@ -1,2 +1,2 @@
 Meteor.publish 'categories', ->
-    CategoriesCollection.find {}
+    Categories.findAll()

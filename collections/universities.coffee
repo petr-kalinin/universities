@@ -13,8 +13,8 @@ UniversitiesCollection.allow
     remove: (userId, doc) ->
         doc = UniversitiesCollection._transform doc
         userId && doc.canDelete()
-
-UniversitiesCollection.helpers
+        
+UniversitiesCollection.helpers "universities",
     canDelete: ->
         comment = CommentsCollection.findOne university: this._id
         if comment?
