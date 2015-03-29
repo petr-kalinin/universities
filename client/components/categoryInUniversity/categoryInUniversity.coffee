@@ -20,7 +20,7 @@ Template.categoryInUniversity.helpers
         Comments.find this.university, this.category
     userName: ->
         uId = Meteor.userId()
-        UsersCollection.findOne(uId)?.profile.name
+        Users.findOne(uId)?.profile.name
         
 
 Template.categoryInUniversity.rendered = ->

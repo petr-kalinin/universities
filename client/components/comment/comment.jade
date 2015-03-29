@@ -1,7 +1,6 @@
 template(name='comment')
     li.list-group-item
+        =text
+        +user author
         if canDelete
             button.close.delete(title="Удалить") &times;
-        =text
-        i
-            =authorName

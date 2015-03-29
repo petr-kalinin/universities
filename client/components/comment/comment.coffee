@@ -3,8 +3,8 @@ Template.comment.events
         this.remove()
 
 Template.comment.helpers
-    authorName: ->
-        UsersCollection.findOne(this.author)?.profile?.name
-        
     canDelete: ->
         Meteor.userId() && Meteor.userId() == this.author
+        
+    author: ->
+        Users.findOne(this.author)

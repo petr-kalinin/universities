@@ -4,6 +4,7 @@ class @UniversityController extends RouteController
         @subscribe 'universities'
         @subscribe 'categories'
         @subscribe 'universityComments', @params.id
+        @subscribe 'users'
         
     data: ->
         uId = this.params.id
