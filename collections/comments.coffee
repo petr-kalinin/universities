@@ -20,8 +20,8 @@ CommentsCollection.allow
         
 CommentsCollection.helpers "comments", 
     remove: ->
-        user = Meteor.user()
-        if user._id == @author
+        user = Users.currentUser()
+        if user && user._id == @author
             Comments.collection.remove @_id
         else
             throw new Meteor.Error "permission-denied", "Only author can delete comment"

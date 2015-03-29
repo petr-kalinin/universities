@@ -7,4 +7,4 @@ Template.comment.helpers
         Meteor.userId() && Meteor.userId() == this.author
         
     author: ->
-        Users.findOne(this.author)
+        Users.findById(this.author)

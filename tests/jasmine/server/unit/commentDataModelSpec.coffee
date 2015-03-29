@@ -59,7 +59,7 @@ describe "Comment", ->
     it "should not be possible to remove for non-author", ->
         spyOn Comments.collection, "remove"
             .and.returnValue true
-        spyOn Meteor, "user"
+        spyOn Users, "currentUser"
             .and.returnValue _id: "user1"
         
         c = Comments.collection._transform _id: "111", author: "user2"
@@ -68,18 +68,33 @@ describe "Comment", ->
         catch error
             expect(error.error).toBe("permission-denied")
             
-        expect(Meteor.user).toHaveBeenCalled()
+        expect(Users.currentUser).toHaveBeenCalled()
+        expect(Comments.collection.remove).not.toHaveBeenCalled()
+        
+    it "should not be possible to remove for non-logged-in", ->
+        spyOn Comments.collection, "remove"
+            .and.returnValue true
+        spyOn Users, "currentUser"
+            .and.returnValue null
+        
+        c = Comments.collection._transform _id: "111", author: "user2"
+        try
+            c.remove()
+        catch error
+            expect(error.error).toBe("permission-denied")
+            
+        expect(Users.currentUser).toHaveBeenCalled()
         expect(Comments.collection.remove).not.toHaveBeenCalled()
         
     it "should be possible to remove for author", ->
         spyOn Comments.collection, "remove"
             .and.returnValue true
-        spyOn Meteor, "user"
+        spyOn Users, "currentUser"
             .and.returnValue _id: "user2"
         
         c = Comments.collection._transform _id: "111", author: "user2"
         c.remove()
             
-        expect(Meteor.user).toHaveBeenCalled()
+        expect(Users.currentUser).toHaveBeenCalled()
         expect(Comments.collection.remove).toHaveBeenCalledWith "111"
         
