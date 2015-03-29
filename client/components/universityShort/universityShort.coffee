@@ -1,5 +1,5 @@
 Template.universityShort.events
-    "click .delete": ->
+    "click .remove": ->
         this.remove()
         false
 

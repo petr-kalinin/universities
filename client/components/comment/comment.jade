@@ -2,5 +2,5 @@ template(name='comment')
     li.list-group-item
         =text
         +user author
-        if canDelete
-            button.close.delete(title="Удалить") &times;
+        if canRemove
+            button.close.remove(title="Удалить") &times;

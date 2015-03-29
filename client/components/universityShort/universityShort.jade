@@ -1,6 +1,6 @@
 template(name='universityShort')
     a.list-group-item(href="university/{{_id}}")
         =name
-        if canDelete 
-            button.close.delete(title="Удалить") &times;
+        if canRemove
+            button.close.remove(title="Удалить") &times;
         

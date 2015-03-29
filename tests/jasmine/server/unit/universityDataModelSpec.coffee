@@ -8,7 +8,7 @@ describe "University", ->
         expect(Universities.collection.insert).toHaveBeenCalledWith
             name: "University 1"
                 
-    it "should be able to delete a university without comments", ->
+    it "should be able to remove a university without comments", ->
         spyOn Universities.collection, "remove" 
             .and.returnValue true
         spyOn Comments, "findOneByUniversity"
@@ -16,12 +16,12 @@ describe "University", ->
         
         univ = Universities.collection._transform name: "Test", _id: "000"
         expect(univ).toBeDefined()
-        expect(univ.canDelete()).toBe(true)
+        expect(univ.canRemove()).toBe(true)
         univ.remove() 
         expect(Comments.findOneByUniversity).toHaveBeenCalledWith univ
         expect(Universities.collection.remove).toHaveBeenCalledWith "000"
         
-    it "should not be able to delete a university with comments", ->
+    it "should not be able to remove a university with comments", ->
         spyOn Universities.collection, "remove" 
             .and.returnValue true
         spyOn Comments, "findOneByUniversity"
@@ -29,11 +29,11 @@ describe "University", ->
         
         univ = Universities.collection._transform name: "Test", _id: "000"
         expect(univ).toBeDefined()
-        expect(univ.canDelete()).toBe(false)
+        expect(univ.canRemove()).toBe(false)
         try
             univ.remove()
         catch error
-            expect(error.error).toBe("cant-delete")
+            expect(error.error).toBe("cant-remove")
         expect(Comments.findOneByUniversity).toHaveBeenCalledWith univ
         expect(Universities.collection.remove).not.toHaveBeenCalled
 

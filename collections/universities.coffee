@@ -12,10 +12,10 @@ UniversitiesCollection.allow
     
     remove: (userId, doc) ->
         doc = UniversitiesCollection._transform doc
-        userId && doc.canDelete()
+        userId && doc.canRemove()
         
 UniversitiesCollection.helpers
-    canDelete: ->
+    canRemove: ->
         comment = Comments.findOneByUniversity this
         if comment?
             return false
@@ -23,8 +23,8 @@ UniversitiesCollection.helpers
             return true
 
     remove: ->
-        if not this.canDelete()
-            throw new Meteor.Error "cant-delete", "The university has comments"
+        if not this.canRemove()
+            throw new Meteor.Error "cant-remove", "The university has comments"
         Universities.collection.remove(this._id)
         
 Universities =
@@ -43,6 +43,4 @@ Universities =
         
     collection: UniversitiesCollection
             
-            
-
 @Universities = Universities

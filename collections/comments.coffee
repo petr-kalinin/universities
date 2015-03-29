@@ -24,7 +24,7 @@ CommentsCollection.helpers
         if user && user._id == @author
             Comments.collection.remove @_id
         else
-            throw new Meteor.Error "permission-denied", "Only author can delete comment"
+            throw new Meteor.Error "permission-denied", "Only author can remove comment"
 
 Comments =
     create: (university, category, text, author) ->

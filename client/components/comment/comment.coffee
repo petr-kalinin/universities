@@ -1,9 +1,9 @@
 Template.comment.events
-    "click .delete": ->
+    "click .remove": ->
         this.remove()
 
 Template.comment.helpers
-    canDelete: ->
+    canRemove: ->
         Meteor.userId() && Meteor.userId() == this.author
         
     author: ->
