@@ -14,7 +14,7 @@ UniversitiesCollection.allow
         doc = UniversitiesCollection._transform doc
         userId && doc.canDelete()
         
-UniversitiesCollection.helpers "universities",
+UniversitiesCollection.helpers
     canDelete: ->
         comment = Comments.findOneByUniversity this
         if comment?

@@ -9,7 +9,7 @@ categoriesSchema = SimpleSchema.build SimpleSchema.timestamp,
 CategoriesCollection = new Mongo.Collection 'categories'
 CategoriesCollection.attachSchema categoriesSchema
 
-CategoriesCollection.helpers  "categories",
+CategoriesCollection.helpers
     findChildren: ->
         Categories.collection.find {parent: @_id}
         

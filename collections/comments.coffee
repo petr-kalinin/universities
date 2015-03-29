@@ -18,7 +18,7 @@ CommentsCollection.allow
     remove: (userId, doc) ->
         userId && userId == doc.author
         
-CommentsCollection.helpers "comments", 
+CommentsCollection.helpers
     remove: ->
         user = Users.currentUser()
         if user && user._id == @author

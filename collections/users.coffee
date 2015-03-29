@@ -4,7 +4,7 @@ UsersCollection = Meteor.users
 if !Meteor.users.helpers
     Meteor.users.helpers = Mongo.Collection.prototype.helpers
 
-Meteor.users.helpers "Users",
+Meteor.users.helpers
     isAdmin: ->
         if @admin
             @admin
