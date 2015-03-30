@@ -14,10 +14,10 @@ Meteor.users.helpers
     name: ->
         @profile.name
     
-    vkHref: ->
+    externalProfile: ->
         "https://vk.com/id" + @services.vk.id
     
-    vkPhoto: ->
+    avatar: ->
         @services.vk.photo
         
 Users = 

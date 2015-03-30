@@ -51,5 +51,5 @@ describe "User", ->
                     photo: "http://a.b"
                         
         expect(user.name()).toBe "his-name"
-        expect(user.vkHref()).toBe "https://vk.com/id123456"
-        expect(user.vkPhoto()).toBe "http://a.b"
+        expect(user.externalProfile()).toBe "https://vk.com/id123456"
+        expect(user.avatar()).toBe "http://a.b"
