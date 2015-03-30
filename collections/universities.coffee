@@ -8,14 +8,16 @@ UniversitiesCollection.attachSchema universitiesSchema
 
 UniversitiesCollection.allow
     insert: (userId, doc) ->
-        userId && true
+        Universities.canCreate()
     
     remove: (userId, doc) ->
         doc = UniversitiesCollection._transform doc
-        userId && doc.canRemove()
+        doc.canRemove()
         
 UniversitiesCollection.helpers
     canRemove: ->
+        if not Users.currentUser()
+            return false
         comment = Comments.findOneByUniversity this
         if comment?
             return false
@@ -28,6 +30,12 @@ UniversitiesCollection.helpers
         Universities.collection.remove(this._id)
         
 Universities =
+    canCreate: ->
+        if Users.currentUser()
+            return true
+        else 
+            return false
+    
     create: (name) ->
         @collection.insert
             name: name

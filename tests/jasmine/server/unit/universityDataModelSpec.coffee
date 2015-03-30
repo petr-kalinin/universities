@@ -8,12 +8,15 @@ describe "University", ->
         expect(Universities.collection.insert).toHaveBeenCalledWith
             name: "University 1"
                 
-    it "should be able to remove a university without comments", ->
+    it "should be able to remove a university without comments and create a new university", ->
         spyOn Universities.collection, "remove" 
             .and.returnValue true
         spyOn Comments, "findOneByUniversity"
             .and.returnValue null
+        spyOn Users, "currentUser"
+            .and.returnValue "abc"
         
+        expect(Universities.canCreate()).toBe(true)
         univ = Universities.collection._transform name: "Test", _id: "000"
         expect(univ).toBeDefined()
         expect(univ.canRemove()).toBe(true)
@@ -26,6 +29,8 @@ describe "University", ->
             .and.returnValue true
         spyOn Comments, "findOneByUniversity"
             .and.returnValue "foo"
+        spyOn Users, "currentUser"
+            .and.returnValue "abc"
         
         univ = Universities.collection._transform name: "Test", _id: "000"
         expect(univ).toBeDefined()
@@ -35,6 +40,24 @@ describe "University", ->
         catch error
             expect(error.error).toBe("cant-remove")
         expect(Comments.findOneByUniversity).toHaveBeenCalledWith univ
+        expect(Universities.collection.remove).not.toHaveBeenCalled
+
+    it "should not be able to remove or create a university for a not-logged-in user", ->
+        spyOn Universities.collection, "remove" 
+            .and.returnValue true
+        spyOn Comments, "findOneByUniversity"
+            .and.returnValue "foo"
+        spyOn Users, "currentUser"
+            .and.returnValue null
+        
+        expect(Universities.canCreate()).toBe(false)
+        univ = Universities.collection._transform name: "Test", _id: "000"
+        expect(univ).toBeDefined()
+        expect(univ.canRemove()).toBe(false)
+        try
+            univ.remove()
+        catch error
+            expect(error.error).toBe("cant-remove")
         expect(Universities.collection.remove).not.toHaveBeenCalled
 
     it "should be able to find all universities", ->

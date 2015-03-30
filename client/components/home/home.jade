@@ -1,7 +1,8 @@
 template(name='home')
-  h1 Университеты
-  div.list-group
-    +each universities
-      +universityShort
-    +addUniversity
+    h1 Университеты
+    div.list-group
+        +each universities
+            +universityShort
+        if canCreate
+            +addUniversity
   
