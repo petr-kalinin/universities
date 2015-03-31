@@ -12,13 +12,16 @@ Meteor.users.helpers
             false
         
     name: ->
-        @profile.name
+        @profile?.name
     
     externalProfile: ->
-        "https://vk.com/id" + @services.vk.id
+        if @services?.vk?.id
+            "https://vk.com/id" + @services.vk.id
+        else
+            undefined
     
     avatar: ->
-        @services.vk.photo
+        @services?.vk?.photo
         
 Users = 
     currentUser: ->

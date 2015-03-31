@@ -53,3 +53,10 @@ describe "User", ->
         expect(user.name()).toBe "his-name"
         expect(user.externalProfile()).toBe "https://vk.com/id123456"
         expect(user.avatar()).toBe "http://a.b"
+        
+    it "should return empty profile for non-user", ->
+        user = Users.collection._transform null
+                        
+        expect(user.name()).toBe undefined
+        expect(user.externalProfile()).toBe undefined
+        expect(user.avatar()).toBe undefined
