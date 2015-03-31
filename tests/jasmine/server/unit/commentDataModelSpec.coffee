@@ -2,23 +2,37 @@ describe "Comment", ->
     it "should be created with univ, cat, text, author", ->
         spyOn Comments.collection, "insert"
             .and.returnValue true
+        spyOn Users, "currentUser"
+            .and.returnValue _id: "user"
 
         Comments.create {_id: "univ"}, {_id: "cat"}, "text", {_id: "user"}
  
-        expect(Comments.collection.insert).toHaveBeenCalledWith
+        expect(Comments.collection.insert.calls.mostRecent().args[0]).toEqual
             university: "univ",
             category: "cat",
             text: "text",
             author: "user"
                 
-    it "should not be created without author", ->
+    it "should not be created without required fields", ->
         spyOn Comments.collection, "insert"
             .and.returnValue true
+        spyOn Users, "currentUser"
+            .and.returnValue _id: "user"
+        
+        expect -> Comments.create null, {_id: "cat"}, "text", {_id: "user"}
+            .toThrow()
 
-        try
-            Comments.create {_id: "univ"}, {_id: "cat"}, "text", null
-        catch error
-            expect(error.error).toBe("permission-denied")
+        expect -> Comments.create {_id: "univ"}, null, "text", {_id: "user"}
+            .toThrow()
+            
+        expect -> Comments.create {_id: "univ"}, {_id: "cat"}, "", {_id: "user"}
+            .toThrow()
+            
+        expect -> Comments.create {_id: "univ"}, {_id: "cat"}, "text", null
+            .toThrow()
+
+        expect -> Comments.create {_id: "univ"}, {_id: "cat"}, "text", {_id: "user2"}
+            .toThrow()
             
         expect(Comments.collection.insert).not.toHaveBeenCalled
                 
@@ -63,10 +77,8 @@ describe "Comment", ->
             .and.returnValue _id: "user1"
         
         c = Comments.collection._transform _id: "111", author: "user2"
-        try
-            c.remove()
-        catch error
-            expect(error.error).toBe("permission-denied")
+        expect(c.canRemove()).toBe(false)
+        expect(c.remove).toThrow()
             
         expect(Users.currentUser).toHaveBeenCalled()
         expect(Comments.collection.remove).not.toHaveBeenCalled()
@@ -78,10 +90,8 @@ describe "Comment", ->
             .and.returnValue null
         
         c = Comments.collection._transform _id: "111", author: "user2"
-        try
-            c.remove()
-        catch error
-            expect(error.error).toBe("permission-denied")
+        expect(c.canRemove()).toBe(false)
+        expect(c.remove).toThrow()
             
         expect(Users.currentUser).toHaveBeenCalled()
         expect(Comments.collection.remove).not.toHaveBeenCalled()
@@ -97,4 +107,14 @@ describe "Comment", ->
             
         expect(Users.currentUser).toHaveBeenCalled()
         expect(Comments.collection.remove).toHaveBeenCalledWith "111"
+        
+    it "should return author", ->
+        spyOn Users, "findById"
+            .and.returnValue "123"
+        
+        c = Comments.collection._transform author: "user"
+        a = c.getAuthor()
+            
+        expect(a).toBe "123"
+        expect(Users.findById).toHaveBeenCalledWith "user"
         

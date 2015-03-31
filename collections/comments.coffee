@@ -19,22 +19,41 @@ CommentsCollection.allow
         userId && userId == doc.author
         
 CommentsCollection.helpers
-    remove: ->
+    canRemove: ->
         user = Users.currentUser()
         if user && user._id == @author
+            return true
+        else
+            return false
+        
+    canCreate: ->
+        user = Users.currentUser()
+        if @university && @category && @text && @author && user && user._id == @author
+            return true
+        else
+            return false
+
+    remove: ->
+        if @canRemove()
             Comments.collection.remove @_id
         else
             throw new Meteor.Error "permission-denied", "Only author can remove comment"
+    
+    getAuthor: ->
+        Users.findById(this.author)
+
 
 Comments =
     create: (university, category, text, author) ->
-        if not author
-            throw new Meteor.Error "permission-denied", "Unauthorized used can not create comments"
-        @collection.insert
-            university: university._id,
-            category: category._id,
+        baseDoc = 
+            university: university?._id,
+            category: category?._id,
             text: text,
-            author: author._id
+            author: author?._id
+        doc = @collection._transform baseDoc
+        if not doc.canCreate()
+            throw new Meteor.Error "permission-denied", "Unauthorized used can not create comments"
+        @collection.insert baseDoc
         
     find: (university, category) ->
         @collection.find
