@@ -18,6 +18,8 @@ Template.categoryInUniversity.helpers
         this.category.isLeaf()
     comments: ->
         Comments.find this.university, this.category
+    canCreate: ->
+        Comments.userCanCreate()
         
 
 Template.categoryInUniversity.rendered = ->

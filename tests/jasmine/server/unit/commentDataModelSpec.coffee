@@ -18,6 +18,8 @@ describe "Comment", ->
             .and.returnValue true
         spyOn Users, "currentUser"
             .and.returnValue _id: "user"
+                
+        expect(Comments.userCanCreate()).toBe(true)
         
         expect -> Comments.create null, {_id: "cat"}, "text", {_id: "user"}
             .toThrow()
@@ -32,6 +34,18 @@ describe "Comment", ->
             .toThrow()
 
         expect -> Comments.create {_id: "univ"}, {_id: "cat"}, "text", {_id: "user2"}
+            .toThrow()
+            
+        expect(Comments.collection.insert).not.toHaveBeenCalled
+                
+    it "should not be created by non-authorized users", ->
+        spyOn Comments.collection, "insert"
+            .and.returnValue true
+        spyOn Users, "currentUser"
+            .and.returnValue null
+                
+        expect(Comments.userCanCreate()).toBe(false)
+        expect -> Comments.create {_id: "univ"}, {_id: "cat"}, "text", {_id: "user"}
             .toThrow()
             
         expect(Comments.collection.insert).not.toHaveBeenCalled

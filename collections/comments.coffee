@@ -28,7 +28,7 @@ CommentsCollection.helpers
         
     canCreate: ->
         user = Users.currentUser()
-        if @university && @category && @text && @author && user && user._id == @author
+        if Comments.userCanCreate() && @university && @category && @text && @author && user._id == @author
             return true
         else
             return false
@@ -44,6 +44,13 @@ CommentsCollection.helpers
 
 
 Comments =
+    userCanCreate: ->
+        user = Users.currentUser()
+        if (user)
+            return true
+        else 
+            return false
+
     create: (university, category, text, author) ->
         baseDoc = 
             university: university?._id,
@@ -52,7 +59,7 @@ Comments =
             author: author?._id
         doc = @collection._transform baseDoc
         if not doc.canCreate()
-            throw new Meteor.Error "permission-denied", "Unauthorized used can not create comments"
+            throw new Meteor.Error "permission-denied", "Can't not create comments"
         @collection.insert baseDoc
         
     find: (university, category) ->
