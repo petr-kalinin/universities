@@ -24,6 +24,7 @@ describe "User", ->
                     "profile.name": 1
                     "services.vk.id": 1
                     "services.vk.photo": 1
+                    "admin": 1
                 expect(request).toEqual {}
                 expect(parameters).toEqual fields: fields
                 "abc"

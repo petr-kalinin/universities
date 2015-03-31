@@ -23,6 +23,7 @@ Meteor.users.helpers
     avatar: ->
         @services?.vk?.photo
         
+        
 Users = 
     currentUser: ->
         Meteor.user()
@@ -35,6 +36,7 @@ Users =
             "profile.name": 1
             "services.vk.id": 1
             "services.vk.photo": 1
+            "admin": 1
         @collection.find {}, fields: fields
 
     collection: UsersCollection

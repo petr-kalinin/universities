@@ -88,7 +88,7 @@ describe "Comment", ->
         spyOn Comments.collection, "remove"
             .and.returnValue true
         spyOn Users, "currentUser"
-            .and.returnValue _id: "user1"
+            .and.returnValue {_id: "user1", isAdmin: -> false}
         
         c = Comments.collection._transform _id: "111", author: "user2"
         expect(c.canRemove()).toBe(false)
@@ -115,6 +115,18 @@ describe "Comment", ->
             .and.returnValue true
         spyOn Users, "currentUser"
             .and.returnValue _id: "user2"
+        
+        c = Comments.collection._transform _id: "111", author: "user2"
+        c.remove()
+            
+        expect(Users.currentUser).toHaveBeenCalled()
+        expect(Comments.collection.remove).toHaveBeenCalledWith "111"
+        
+    it "should be possible to remove for admin", ->
+        spyOn Comments.collection, "remove"
+            .and.returnValue true
+        spyOn Users, "currentUser"
+            .and.returnValue {_id: "user1", isAdmin: -> true}
         
         c = Comments.collection._transform _id: "111", author: "user2"
         c.remove()

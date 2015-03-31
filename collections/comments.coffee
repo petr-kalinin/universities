@@ -14,14 +14,16 @@ CommentsCollection.attachSchema commentsSchema
 
 CommentsCollection.allow
     insert: (userId, doc) ->
-        userId && userId == doc.author
+        trDoc = CommentsCollection._transform doc
+        trDoc.canCreate()
     remove: (userId, doc) ->
-        userId && userId == doc.author
+        trDoc = CommentsCollection._transform doc
+        trDoc.canRemove()
         
 CommentsCollection.helpers
     canRemove: ->
         user = Users.currentUser()
-        if user && user._id == @author
+        if user && (user._id == @author || user.isAdmin())
             return true
         else
             return false
