@@ -35,10 +35,7 @@ describe "University", ->
         univ = Universities.collection._transform name: "Test", _id: "000"
         expect(univ).toBeDefined()
         expect(univ.canRemove()).toBe(false)
-        try
-            univ.remove()
-        catch error
-            expect(error.error).toBe("cant-remove")
+        expect(univ.remove).toThrow()
         expect(Comments.findOneByUniversity).toHaveBeenCalledWith univ
         expect(Universities.collection.remove).not.toHaveBeenCalled
 
@@ -54,10 +51,7 @@ describe "University", ->
         univ = Universities.collection._transform name: "Test", _id: "000"
         expect(univ).toBeDefined()
         expect(univ.canRemove()).toBe(false)
-        try
-            univ.remove()
-        catch error
-            expect(error.error).toBe("cant-remove")
+        expect(univ.remove).toThrow()
         expect(Universities.collection.remove).not.toHaveBeenCalled
 
     it "should be able to find all universities", ->
