@@ -1,0 +1,10 @@
+template(name='addComment')
+    form.new-comment(id=this.category._id)
+        textarea.form-control(type="text",name="text",rows="1",placeholder="Введите комментарий")
+        if focused
+            .container-fluid.text-muted.small
+                | Нажмите Enter для перевода строки, Ctrl-Enter чтобы отправить. Отправляя комментарий, вы соглашаетесь опубликовать его на условиях лицензии
+                a(href="https://creativecommons.org/licenses/by-sa/3.0/") Creative Commons Attribution Share-Alike License 3.0
+                | .
+
+
