@@ -3,3 +3,4 @@ class @HomeController extends RouteController
     subscriptions: ->
         @subscribe 'universities'
         @subscribe 'comments'
+        @subscribe 'users'

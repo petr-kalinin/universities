@@ -1,13 +1,30 @@
 describe "Category", ->
-    it "should be created with name and parent", ->
+    it "should be by admin created with name and parent", ->
         spyOn Categories.collection, "insert"
             .and.returnValue true
+        spyOn Users, "currentUser"
+            .and.returnValue isAdmin: -> true
 
+        expect(Categories.canCreate()).toBe(true)
         Categories.create "Category 1", "foo"
  
+        expect(Users.currentUser).toHaveBeenCalled()
         expect(Categories.collection.insert).toHaveBeenCalledWith
             name: "Category 1",
             parent: "foo"
+                
+    it "should not be created by non-admin", ->
+        spyOn Categories.collection, "insert"
+            .and.returnValue true
+        spyOn Users, "currentUser"
+            .and.returnValue isAdmin: -> false
+
+        expect(Categories.canCreate()).toBe(false)
+        expect -> Categories.create "Category 1", "foo"
+            .toThrow()
+ 
+        expect(Users.currentUser).toHaveBeenCalled()
+        expect(Categories.collection.insert).not.toHaveBeenCalled()
                 
     it "should be possible to find root and top-level categories", ->
         spyOn Categories.collection, "findOne"

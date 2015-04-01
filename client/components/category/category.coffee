@@ -1,11 +1,9 @@
 Template.category.events
     "submit": (event) ->
         name = event.target.text.value
-        Categories.create
-            parent: this._id,
-            name: name
+        Categories.create name, this._id
         event.target.text.value = ""
-        false;
+        false
 
 Template.category.helpers
     subCategory: ->

@@ -16,9 +16,18 @@ CategoriesCollection.helpers
     isLeaf: ->
         child = Categories.collection.findOne {parent: @_id}
         !child
+        
+CategoriesCollection.allow
+    insert: (userId, doc) ->
+        Categories.canCreate()
 
 Categories =
+    canCreate: ->
+        Users.currentUser().isAdmin()
+    
     create: (name, parent) ->
+        if not @canCreate()
+            throw new Meteor.Error "permission-denied", "Can't not create category"
         @collection.insert
             name: name
             parent: parent
