@@ -1,0 +1,13 @@
+template(name='allUniversities')
+    h1 Университеты
+    div.list-group
+        +each universities1
+            +universityShort
+        if canCreate
+            +addUniversity
+            p.small
+            | Пожалуйста, подумайте, что именно вы хотите добавить: университет, факультет или кафедру. Добавляйте то, что достаточно сильно отличается от соседей, но само внутри достаточно однородно.
+        else
+            p.text-warning
+                | Войдите в систему, чтобы добавлять университет или отзыв
+  
