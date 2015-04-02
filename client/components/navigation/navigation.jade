@@ -6,8 +6,17 @@ template(name='navigation')
                     a.navbar-brand(href="/") Обзор университетов
                 #navbar
                     ul.nav.navbar-nav
-                        li.active 
+                        li(class='{{isActive "university" null}}')
                             a(href="/university") Университеты
+                        li(class='dropdown {{currentUniversity.active}}')
+                            a(href="/university",class="dropdown-toggle",data-toggle="dropdown",role="button",aria-expanded="false") 
+                                =currentUniversity.name
+                                span.caret
+                            ul.dropdown-menu(role=menu)
+                                +each universities
+                                    li(class='{{isActive "university" _id}}')
+                                        a(href="/university/{{_id}}")
+                                            =name
                     .nav.navbar-right 
                         p.navbar-login
                             +loginButtons

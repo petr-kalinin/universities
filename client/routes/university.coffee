@@ -10,3 +10,5 @@ class @UniversityController extends RouteController
         uId = this.params.id
         Universities.findById uId
     
+    name: ->
+        'university'
