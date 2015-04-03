@@ -1,4 +1,4 @@
-commentsSchema = SimpleSchema.build SimpleSchema.timestamp,
+reviewsSchema = SimpleSchema.build SimpleSchema.timestamp,
   'university':
     type: String
     index: true
@@ -9,18 +9,18 @@ commentsSchema = SimpleSchema.build SimpleSchema.timestamp,
   'author':
       type: String
 
-CommentsCollection = new Mongo.Collection 'comments'
-CommentsCollection.attachSchema commentsSchema
+ReviewsCollection = new Mongo.Collection 'reviews'
+ReviewsCollection.attachSchema reviewsSchema
 
-CommentsCollection.allow
+ReviewsCollection.allow
     insert: (userId, doc) ->
-        trDoc = CommentsCollection._transform doc
+        trDoc = ReviewsCollection._transform doc
         trDoc.canCreate()
     remove: (userId, doc) ->
-        trDoc = CommentsCollection._transform doc
+        trDoc = ReviewsCollection._transform doc
         trDoc.canRemove()
         
-CommentsCollection.helpers
+ReviewsCollection.helpers
     canRemove: ->
         user = Users.currentUser()
         if user && (user._id == @author || user.isAdmin())
@@ -30,22 +30,22 @@ CommentsCollection.helpers
         
     canCreate: ->
         user = Users.currentUser()
-        if Comments.userCanCreate() && @university && @category && @text && @author && user._id == @author
+        if Reviews.userCanCreate() && @university && @category && @text && @author && user._id == @author
             return true
         else
             return false
 
     remove: ->
         if @canRemove()
-            Comments.collection.remove @_id
+            Reviews.collection.remove @_id
         else
-            throw new Meteor.Error "permission-denied", "Only author can remove comment"
+            throw new Meteor.Error "permission-denied", "Only author can remove review"
     
     getAuthor: ->
         Users.findById(this.author)
 
 
-Comments =
+Reviews =
     userCanCreate: ->
         user = Users.currentUser()
         if (user)
@@ -61,7 +61,7 @@ Comments =
             author: author?._id
         doc = @collection._transform baseDoc
         if not doc.canCreate()
-            throw new Meteor.Error "permission-denied", "Can't not create comments"
+            throw new Meteor.Error "permission-denied", "Can't not create reviews"
         @collection.insert baseDoc
         
     find: (university, category) ->
@@ -78,6 +78,6 @@ Comments =
     findByUniversity: (university) ->
         @collection.find university: university._id
 
-    collection: CommentsCollection
+    collection: ReviewsCollection
     
-@Comments = Comments
+@Reviews = Reviews

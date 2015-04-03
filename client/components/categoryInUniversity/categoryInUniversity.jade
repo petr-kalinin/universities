@@ -6,7 +6,7 @@ template(name='categoryInUniversity')
             +each subCategory
                 +categoryInUniversity category=this university=../university
             if isLeaf
-                +each comments
-                    +comment
+                +each reviews
+                    +review
                 if canCreate
-                    +addComment
+                    +addReview

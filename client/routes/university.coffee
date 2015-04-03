@@ -3,7 +3,7 @@ class @UniversityController extends RouteController
     subscriptions: ->
         @subscribe 'universities'
         @subscribe 'categories'
-        @subscribe 'universityComments', @params.id
+        @subscribe 'universityReviews', @params.id
         @subscribe 'users'
         
     data: ->

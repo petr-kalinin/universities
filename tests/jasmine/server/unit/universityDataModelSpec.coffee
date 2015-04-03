@@ -8,10 +8,10 @@ describe "University", ->
         expect(Universities.collection.insert).toHaveBeenCalledWith
             name: "University 1"
                 
-    it "should be able to remove a university without comments and create a new university", ->
+    it "should be able to remove a university without reviews and create a new university", ->
         spyOn Universities.collection, "remove" 
             .and.returnValue true
-        spyOn Comments, "findOneByUniversity"
+        spyOn Reviews, "findOneByUniversity"
             .and.returnValue null
         spyOn Users, "currentUser"
             .and.returnValue "abc"
@@ -21,13 +21,13 @@ describe "University", ->
         expect(univ).toBeDefined()
         expect(univ.canRemove()).toBe(true)
         univ.remove() 
-        expect(Comments.findOneByUniversity).toHaveBeenCalledWith univ
+        expect(Reviews.findOneByUniversity).toHaveBeenCalledWith univ
         expect(Universities.collection.remove).toHaveBeenCalledWith "000"
         
-    it "should not be able to remove a university with comments", ->
+    it "should not be able to remove a university with reviews", ->
         spyOn Universities.collection, "remove" 
             .and.returnValue true
-        spyOn Comments, "findOneByUniversity"
+        spyOn Reviews, "findOneByUniversity"
             .and.returnValue "foo"
         spyOn Users, "currentUser"
             .and.returnValue "abc"
@@ -36,13 +36,13 @@ describe "University", ->
         expect(univ).toBeDefined()
         expect(univ.canRemove()).toBe(false)
         expect(univ.remove).toThrow()
-        expect(Comments.findOneByUniversity).toHaveBeenCalledWith univ
+        expect(Reviews.findOneByUniversity).toHaveBeenCalledWith univ
         expect(Universities.collection.remove).not.toHaveBeenCalled
 
     it "should not be able to remove or create a university for a not-logged-in user", ->
         spyOn Universities.collection, "remove" 
             .and.returnValue true
-        spyOn Comments, "findOneByUniversity"
+        spyOn Reviews, "findOneByUniversity"
             .and.returnValue "foo"
         spyOn Users, "currentUser"
             .and.returnValue null

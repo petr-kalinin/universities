@@ -18,15 +18,15 @@ UniversitiesCollection.helpers
     canRemove: ->
         if not Users.currentUser()
             return false
-        comment = Comments.findOneByUniversity this
-        if comment?
+        review = Reviews.findOneByUniversity this
+        if review?
             return false
         else
             return true
 
     remove: ->
         if not this.canRemove()
-            throw new Meteor.Error "cant-remove", "The university has comments"
+            throw new Meteor.Error "cant-remove", "The university has reviews"
         Universities.collection.remove(this._id)
         
 Universities =
