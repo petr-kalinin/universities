@@ -1,10 +1,12 @@
 categoriesSchema = SimpleSchema.build SimpleSchema.timestamp,
-  'name':
-    type: String
-    index: true
-  'parent':
-    type: String
-    index: true
+    'name':
+        type: String
+        index: true
+    'comment':
+        type: String
+    'parent':
+        type: String
+        index: true
 
 CategoriesCollection = new Mongo.Collection 'categories'
 CategoriesCollection.attachSchema categoriesSchema
@@ -17,19 +19,33 @@ CategoriesCollection.helpers
         child = Categories.collection.findOne {parent: @_id}
         !child
         
+    update: (name, comment) ->
+        if not Categories.canUpdate()
+            throw new Meteor.Error "permission-denied", "Can't not update category"
+        Categories.collection.update _id: @_id,
+            $set:
+                name: name
+                comment: comment
+        
 CategoriesCollection.allow
     insert: (userId, doc) ->
         Categories.canCreate()
+        
+    update: (userId, doc) ->
+        Categories.canUpdate()
 
 Categories =
     canCreate: ->
         Users.currentUser().isAdmin()
+    canUpdate: ->
+        Users.currentUser().isAdmin()
     
-    create: (name, parent) ->
+    create: (name, comment, parent) ->
         if not @canCreate()
             throw new Meteor.Error "permission-denied", "Can't not create category"
         @collection.insert
             name: name
+            comment: comment
             parent: parent
             
     findTopLevel: ->

@@ -1,30 +1,48 @@
 describe "Category", ->
-    it "should be by admin created with name and parent", ->
+    it "should be created or updated by admin with name, comment and parent", ->
         spyOn Categories.collection, "insert"
+            .and.returnValue true
+        spyOn Categories.collection, "update"
             .and.returnValue true
         spyOn Users, "currentUser"
             .and.returnValue isAdmin: -> true
 
         expect(Categories.canCreate()).toBe(true)
-        Categories.create "Category 1", "foo"
+        expect(Categories.canUpdate()).toBe(true)
+        Categories.create "Category 1", "comment1", "foo"
+        
+        cat = Categories.collection._transform _id: "id2", name: "cat2", comment: "comment2", parent: "abc"
+        cat.update "cat3", "comment3"
  
         expect(Users.currentUser).toHaveBeenCalled()
         expect(Categories.collection.insert).toHaveBeenCalledWith
             name: "Category 1",
+            comment: "comment1",
             parent: "foo"
+        expect(Categories.collection.update).toHaveBeenCalledWith _id: "id2",
+            $set:
+                name: "cat3",
+                comment: "comment3"
                 
     it "should not be created by non-admin", ->
         spyOn Categories.collection, "insert"
+            .and.returnValue true
+        spyOn Categories.collection, "update"
             .and.returnValue true
         spyOn Users, "currentUser"
             .and.returnValue isAdmin: -> false
 
         expect(Categories.canCreate()).toBe(false)
-        expect -> Categories.create "Category 1", "foo"
+        expect(Categories.canUpdate()).toBe(false)
+        expect -> Categories.create "Category 1", "comment", "foo"
+            .toThrow()
+        cat = Categories.collection._transform _id: "id2", name: "cat2", comment: "comment2", parent: "abc"
+        expect -> cat.update "cat3", "comment3"
             .toThrow()
  
         expect(Users.currentUser).toHaveBeenCalled()
         expect(Categories.collection.insert).not.toHaveBeenCalled()
+        expect(Categories.collection.update).not.toHaveBeenCalled()
                 
     it "should be possible to find root and top-level categories", ->
         spyOn Categories.collection, "findOne"

@@ -1,8 +1,16 @@
 Template.category.events
-    "submit": (event) ->
-        name = event.target.text.value
-        Categories.create name, this._id
-        event.target.text.value = ""
+    "submit .new-category": (event) ->
+        name = event.target.name.value
+        comment = event.target.comment.value
+        Categories.create name, comment, this._id
+        event.target.name.value = ""
+        event.target.comment.value = ""
+        false
+
+    "submit .edit-category": (event) ->
+        name = event.target.name.value
+        comment = event.target.comment.value
+        this.update name, comment
         false
 
 Template.category.helpers
