@@ -1,6 +1,8 @@
 template(name='review')
     li.list-group-item
-        =text
-        +user getAuthor
-        if canRemove
-            button.close.remove(title="Удалить") &times;
+        .review
+            .text
+                +markdownStub text
+            +user getAuthor
+            if canRemove
+                button.close.remove(title="Удалить") &times;
