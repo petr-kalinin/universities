@@ -3,6 +3,8 @@ template(name='review')
         .review
             .text
                 +markdownStub text
-            +user getAuthor
-            if canRemove
-                button.close.remove(title="Удалить") &times;
+            span.signature
+                +user getAuthor
+                =formattedCreatedDate
+                if canRemove
+                    button.close.remove(title="Удалить") &times;

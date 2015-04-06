@@ -81,7 +81,7 @@ describe "Review", ->
  
         expect(a).toBe("111")
         expect(b).toBe("222")
-        expect(Reviews.collection.find).toHaveBeenCalledWith university: "univ1"
+        expect(Reviews.collection.find).toHaveBeenCalledWith {university: "univ1"}, sort: {createdAt: 1}
         expect(Reviews.collection.findOne).toHaveBeenCalledWith university: "univ2"
                 
     it "should not be possible to remove for non-author", ->

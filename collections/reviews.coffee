@@ -1,3 +1,5 @@
+defaultCreatedDate = new Date(2015, 3, 5, 0, 0, 0, 0);
+
 reviewsSchema = SimpleSchema.build SimpleSchema.timestamp,
   'university':
     type: String
@@ -43,6 +45,12 @@ ReviewsCollection.helpers
     
     getAuthor: ->
         Users.findById(this.author)
+        
+    createdDate: ->
+        if @createdAt
+            @createdAt
+        else
+            defaultCreatedDate
 
 
 Reviews =
@@ -76,7 +84,7 @@ Reviews =
         @collection.findOne university: university._id
         
     findByUniversity: (university) ->
-        @collection.find university: university._id
+        @collection.find {university: university._id}, sort: {createdAt: 1}
 
     collection: ReviewsCollection
     
