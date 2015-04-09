@@ -77,14 +77,20 @@ Reviews =
             university: university._id,
             category: category._id,
         
-    findAll: ->
-        @collection.find {}
+    findAll: (limit = undefined, sort = undefined) ->
+        if not sort
+            sort = -1
+        sort = createdAt: sort
+        @collection.find {}, if limit then limit: limit, sort: sort else sort: sort
         
     findOneByUniversity: (university) ->
         @collection.findOne university: university._id
         
     findByUniversity: (university) ->
         @collection.find {university: university._id}, sort: {createdAt: 1}
+        
+    count: ->
+        @findAll().count()
 
     collection: ReviewsCollection
     

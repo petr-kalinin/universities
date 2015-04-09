@@ -68,7 +68,27 @@ describe "Review", ->
         a = Reviews.findAll()
  
         expect(a).toBe("111")
-        expect(Reviews.collection.find).toHaveBeenCalledWith {}
+        expect(Reviews.collection.find).toHaveBeenCalledWith {}, sort: {createdAt: -1}
+
+    it "should be possible to find with limit", ->
+        spyOn Reviews.collection, "find"
+            .and.returnValue "111"
+
+        a = Reviews.findAll(10, 1)
+ 
+        expect(a).toBe("111")
+        expect(Reviews.collection.find).toHaveBeenCalledWith {}, 
+            limit:10
+            sort: {createdAt: 1}
+
+    it "should be possible to cout all", ->
+        spyOn Reviews.collection, "find"
+            .and.returnValue count: -> return 3
+
+        a = Reviews.count()
+ 
+        expect(a).toBe(3)
+        expect(Reviews.collection.find).toHaveBeenCalledWith {}, sort: {createdAt: -1}
                 
     it "should be possible to find by university", ->
         spyOn Reviews.collection, "find"

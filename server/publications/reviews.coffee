@@ -1,3 +1,3 @@
-Meteor.publish 'reviews', ->
-    Reviews.findAll()
+Meteor.publish 'reviews', (limit = undefined) ->
+    Reviews.findAll(limit)
 

@@ -11,7 +11,7 @@ Template.navigation.helpers
             
     currentUniversity: ->
         router = Router.current()
-        if not (router && router.name() == 'university' && router.data())
+        if not (router && router.name && router.name() == 'university' && router.data())
             return name: '', active: ''
         return  name: router.data().name, active: 'active'
             

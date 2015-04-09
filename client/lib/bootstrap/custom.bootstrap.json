@@ -8,7 +8,7 @@
   "grid":                 true,
   "tables":               false,
   "forms":                false,
-  "buttons":              false,
+  "buttons":              true,
 
   "glyphicons":           false,
   "button-groups":        false,
