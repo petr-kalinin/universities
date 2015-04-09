@@ -9,6 +9,6 @@ template(name='categoryInUniversity')
                 +categoryInUniversity category=this university=../university
             if isLeaf
                 +each reviews
-                    +review
+                    +review review=this
                 if canCreate
                     +addReview

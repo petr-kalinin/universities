@@ -1,0 +1,7 @@
+template( name='allReviews' )
+    h1 Последние отзывы
+    ul.list-group
+        +each this
+            +review review=this showAll=true
+    p
+        +nextPageButton

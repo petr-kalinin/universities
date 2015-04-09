@@ -157,10 +157,20 @@ describe "Review", ->
     it "should return author", ->
         spyOn Users, "findById"
             .and.returnValue "123"
+        spyOn Universities, "findById"
+            .and.returnValue "456"
+        spyOn Categories, "findById"
+            .and.returnValue "789"
         
-        c = Reviews.collection._transform author: "user"
+        c = Reviews.collection._transform author: "user", category: "cat", university: "univ"
         a = c.getAuthor()
+        b = c.getUniversity()
+        c = c.getCategory()
             
         expect(a).toBe "123"
+        expect(b).toBe "456"
+        expect(c).toBe "789"
         expect(Users.findById).toHaveBeenCalledWith "user"
+        expect(Universities.findById).toHaveBeenCalledWith "univ"
+        expect(Categories.findById).toHaveBeenCalledWith "cat"
         

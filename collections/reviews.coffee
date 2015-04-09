@@ -45,6 +45,12 @@ ReviewsCollection.helpers
     
     getAuthor: ->
         Users.findById(this.author)
+
+    getUniversity: ->
+        Universities.findById(this.university)
+        
+    getCategory: ->
+        Categories.findById(this.category)
         
     createdDate: ->
         if @createdAt

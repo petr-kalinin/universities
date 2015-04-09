@@ -2,9 +2,16 @@ template(name='review')
     li.list-group-item
         .review
             .text
-                +markdownStub text
+                +markdownStub review.text
             span.signature
-                +user getAuthor
+                +user review.getAuthor
+                if showAll
+                    | , 
+                    =categoryName
+                    | , 
+                    a(href="/university/{{university._id}}")
+                        =universityName
+                    | , 
                 =formattedCreatedDate
-                if canRemove
+                if review.canRemove
                     button.close.remove(title="Удалить") &times;

@@ -59,6 +59,9 @@ Categories =
     findAll: ->
         @collection.find {}
         
+    findById: (id)->
+        @collection.findOne id
+        
     collection: CategoriesCollection
 
 @Categories = Categories
