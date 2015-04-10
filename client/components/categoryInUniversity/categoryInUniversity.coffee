@@ -10,6 +10,9 @@ Template.categoryInUniversity.events
         Reviews.create this.university, this.category, text, Users.currentUser()
         event.target.text.value = ""
         false
+    "click.collapse": (event) ->
+        this.category.invertCollapsed()
+        false
 
 Template.categoryInUniversity.helpers
     subCategory: ->
@@ -20,6 +23,19 @@ Template.categoryInUniversity.helpers
         Reviews.find this.university, this.category
     canCreate: ->
         Reviews.userCanCreate()
+    collapseButtonDirection: ->
+        if this.category.collapsed()
+            "down"
+        else
+            "up"
+    collapsed: ->
+        this.category.collapsed()
+    collapseTitle: ->
+        if this.category.collapsed()
+            "Развернуть"
+        else
+            "Свернуть"
+        
         
 
 Template.categoryInUniversity.rendered = ->

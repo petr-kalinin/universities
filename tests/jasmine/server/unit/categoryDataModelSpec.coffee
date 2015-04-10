@@ -94,3 +94,19 @@ describe "Category", ->
         expect(leaf.isLeaf()).toBe true
         expect(Categories.collection.findOne).toHaveBeenCalledWith parent: "000"
         expect(Categories.collection.findOne).toHaveBeenCalledWith parent: "111"
+            
+    it "should be possible to collapse and uncollapse", ->
+        spyOn Session, "set"
+            .and.returnValue "true"
+        spyOn Session, "equals"
+            .and.callFake (key, value) ->
+                (key == "categoryCollapsed_abc") == value # abc is collapsed, others are not
+
+        abc = Categories.collection._transform _id: "abc"
+        def = Categories.collection._transform _id: "def"
+            
+        expect(abc.collapsed()).toBe(true)
+        expect(def.collapsed()).toBe(false)
+        
+        abc.invertCollapsed()
+        expect(Session.set).toHaveBeenCalledWith "categoryCollapsed_abc", false

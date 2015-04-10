@@ -26,6 +26,20 @@ CategoriesCollection.helpers
             $set:
                 name: name
                 comment: comment
+                
+    _collapsedKeyName: ->
+        "categoryCollapsed_" + this._id
+                
+    collapsed: ->
+        Session.equals(@_collapsedKeyName(), true)
+        
+    invertCollapsed: ->
+        if Session.equals(@_collapsedKeyName(), true)
+            Session.set(@_collapsedKeyName(), false)
+        else 
+            Session.set(@_collapsedKeyName(), true)
+        
+        
         
 CategoriesCollection.allow
     insert: (userId, doc) ->
