@@ -4,14 +4,15 @@ template(name='categoryInUniversity')
             =category.name
             small
                 =category.comment
-            a(role="button",title="{{collapseTitle}}").collapse
-                span(class="glyphicon glyphicon-chevron-{{collapseButtonDirection}}")
-        unless collapsed
-            ul.list-group
+            unless isLeaf
+                a(role="button",title="{{collapseTitle}}").collapse
+                    span(class="glyphicon glyphicon-chevron-{{collapseButtonDirection}}")
+        ul.list-group
+            unless collapsed
                 +each subCategory
                     +categoryInUniversity category=this university=../university
-                if isLeaf
-                    +each reviews
-                        +review review=this
-                    if canCreate
-                        +addReview
+            if isLeafOrCollapsed
+                +each reviews
+                    +review review=this
+                if canCreate
+                    +addReview

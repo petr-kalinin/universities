@@ -53,13 +53,15 @@ describe "Review", ->
     it "should be possible to find by university and category", ->
         spyOn Reviews.collection, "find"
             .and.returnValue "111"
-
-        a = Reviews.find {_id: "univ"}, {_id: "cat"}
+    
+        cat1 = {_id: "cat", findDescendats: -> ["abc", "def"]}
+        a = Reviews.find {_id: "univ"}, cat1
 
         expect(a).toBe("111")
-        expect(Reviews.collection.find).toHaveBeenCalledWith
+        expect(Reviews.collection.find).toHaveBeenCalledWith {
             university: "univ",
-            category: "cat"
+            category: {$in: ["abc", "def"]}
+        }, {sort: {createdAt: 1}}
                 
     it "should be possible to find all", ->
         spyOn Reviews.collection, "find"

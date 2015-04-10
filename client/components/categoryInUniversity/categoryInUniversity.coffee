@@ -19,6 +19,8 @@ Template.categoryInUniversity.helpers
         this.category.findChildren()
     isLeaf: ->
         this.category.isLeaf()
+    isLeafOrCollapsed: ->
+        this.category.isLeaf() or this.category.collapsed()
     reviews: ->
         Reviews.find this.university, this.category
     canCreate: ->

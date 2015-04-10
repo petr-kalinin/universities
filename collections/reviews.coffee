@@ -79,9 +79,10 @@ Reviews =
         @collection.insert baseDoc
         
     find: (university, category) ->
-        @collection.find
+        @collection.find {
             university: university._id,
-            category: category._id,
+            category: { $in: category.findDescendats() }
+        }, sort: {createdAt: 1}
         
     findAll: (limit = undefined, sort = undefined) ->
         if not sort

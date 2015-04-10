@@ -15,6 +15,12 @@ CategoriesCollection.helpers
     findChildren: ->
         Categories.collection.find {parent: @_id}
         
+    findDescendats: ->
+        resTwoLevelArr = @findChildren().map( (cat) -> cat.findDescendats())
+        res = [].concat.apply([], resTwoLevelArr)
+        res.push(@_id)
+        res
+        
     isLeaf: ->
         child = Categories.collection.findOne {parent: @_id}
         !child
