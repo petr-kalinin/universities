@@ -50,17 +50,30 @@ describe "Review", ->
             
         expect(Reviews.collection.insert).not.toHaveBeenCalled
                 
-    it "should be possible to find by university and category", ->
+    it "should be possible to find by university and category with descendats", ->
         spyOn Reviews.collection, "find"
             .and.returnValue "111"
     
         cat1 = {_id: "cat", findDescendats: -> ["abc", "def"]}
-        a = Reviews.find {_id: "univ"}, cat1
+        a = Reviews.find {_id: "univ"}, cat1, true
 
         expect(a).toBe("111")
         expect(Reviews.collection.find).toHaveBeenCalledWith {
             university: "univ",
             category: {$in: ["abc", "def"]}
+        }, {sort: {createdAt: 1}}
+                
+    it "should be possible to find by university and category without descendats", ->
+        spyOn Reviews.collection, "find"
+            .and.returnValue "111"
+    
+        cat1 = {_id: "cat"}
+        a = Reviews.find {_id: "univ"}, cat1, false
+
+        expect(a).toBe("111")
+        expect(Reviews.collection.find).toHaveBeenCalledWith {
+            university: "univ",
+            category: "cat"
         }, {sort: {createdAt: 1}}
                 
     it "should be possible to find all", ->

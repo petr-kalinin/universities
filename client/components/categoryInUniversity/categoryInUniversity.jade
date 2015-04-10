@@ -8,11 +8,11 @@ template(name='categoryInUniversity')
                 a(role="button",title="{{collapseTitle}}").collapse
                     span(class="glyphicon glyphicon-chevron-{{collapseButtonDirection}}")
         ul.list-group
+            +each reviews
+                +review review=this
+            if isLeafOrCollapsed
+                if canCreate
+                    +addReview
             unless collapsed
                 +each subCategory
                     +categoryInUniversity category=this university=../university
-            if isLeafOrCollapsed
-                +each reviews
-                    +review review=this
-                if canCreate
-                    +addReview

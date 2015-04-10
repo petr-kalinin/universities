@@ -78,10 +78,14 @@ Reviews =
             throw new Meteor.Error "permission-denied", "Can't not create reviews"
         @collection.insert baseDoc
         
-    find: (university, category) ->
+    find: (university, category, findDesc) ->
+        if findDesc
+            cat = { $in: category.findDescendats() }
+        else
+            cat = category._id
         @collection.find {
             university: university._id,
-            category: { $in: category.findDescendats() }
+            category: cat
         }, sort: {createdAt: 1}
         
     findAll: (limit = undefined, sort = undefined) ->
