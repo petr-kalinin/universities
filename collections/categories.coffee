@@ -8,13 +8,17 @@ categoriesSchema = SimpleSchema.build SimpleSchema.timestamp,
     'parent':
         type: String
         index: true
+    'order':
+        type: Number
+    'collapsedByDefault':
+        type: Boolean
 
 CategoriesCollection = new Mongo.Collection 'categories'
 CategoriesCollection.attachSchema categoriesSchema
 
 CategoriesCollection.helpers
     findChildren: ->
-        Categories.collection.find {parent: @_id}
+        Categories.collection.find {parent: @_id}, {sort: {order: 1}}
         
     findDescendats: ->
         resTwoLevelArr = @findChildren().map( (cat) -> cat.findDescendats())
@@ -26,7 +30,7 @@ CategoriesCollection.helpers
         child = Categories.collection.findOne {parent: @_id}
         !child
         
-    update: (name, comment, parent) ->
+    update: (name, comment, parent, order, collapsedByDefault) ->
         if not Categories.canUpdate()
             throw new Meteor.Error "permission-denied", "Can't not update category"
         Categories.collection.update _id: @_id,
@@ -34,15 +38,22 @@ CategoriesCollection.helpers
                 name: name
                 comment: comment
                 parent: parent
+                order: order
+                collapsedByDefault: collapsedByDefault
                 
     _collapsedKeyName: ->
         "categoryCollapsed_" + this._id
                 
     collapsed: ->
-        Session.equals(@_collapsedKeyName(), true)
+        if not (Session.get(@_collapsedKeyName())?)
+            if not (@collapsedByDefault?)
+                @collapsedByDefault = false
+            Session.set(@_collapsedKeyName(), @collapsedByDefault)
+            return @collapsedByDefault
+        Session.get(@_collapsedKeyName())
         
     invertCollapsed: ->
-        if Session.equals(@_collapsedKeyName(), true)
+        if @collapsed()
             Session.set(@_collapsedKeyName(), false)
         else 
             Session.set(@_collapsedKeyName(), true)
@@ -62,17 +73,18 @@ Categories =
     canUpdate: ->
         Users.currentUser().isAdmin()
     
-    create: (name, comment, parent) ->
+    create: (name, comment, parent, order) ->
         if not @canCreate()
             throw new Meteor.Error "permission-denied", "Can't not create category"
         @collection.insert
             name: name
             comment: comment
             parent: parent
+            order: order
+            collapsedByDefault: false
             
     findTopLevel: ->
-        @collection.find
-            parent: @findRoot()?._id
+        @findRoot()?.findChildren()
         
     findRoot: ->
         @collection.findOne

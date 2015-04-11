@@ -5,13 +5,19 @@ template(name='category')
             input(type="text",name="name",value='{{name}}',placeholder="Название категории")
             input(type="text",name="comment",value='{{comment}}',placeholder="Комментарий к категории")
             input(type="text",name="parent",value='{{parent}}',placeholder="Родительская категория")
+            input(type="text",name="order",value='{{order}}',placeholder="Порядок",size="5")
+            input(type="text",name="collapsedByDefault",value='{{collapsedByDefault}}',placeholder="Сворачивать?",size="4")
             input(type="submit", value="&gt;&gt;")
+        a(role="button",title="±").showCreateNew
+            | ±
         ul
             +each subCategory
                 +category
-            li
-                form.new-category
-                        input(type="text",name="name",placeholder="Добавить категорию")
-                        input(type="text",name="comment",placeholder="Комментарий к категории")
-                        input(type="submit", value="&gt;&gt;")
+            if showCreateNew
+                li
+                    form.new-category
+                            input(type="text",name="name",placeholder="Добавить категорию")
+                            input(type="text",name="comment",placeholder="Комментарий к категории")
+                            input(type="text",name="order",placeholder="Порядок", size="5")
+                            input(type="submit", value="&gt;&gt;")
 
