@@ -122,3 +122,23 @@ describe "Category", ->
         
         abc.invertCollapsed()
         expect(Session.set).toHaveBeenCalledWith "categoryCollapsed_abc", false
+        
+    it "should be possible to find all descendats", ->
+        spyOn Categories.collection, "find"
+            .and.callFake (req, sort) ->
+                if req.parent == "a"
+                    x = ["aa", "ab"]
+                else if req.parent == "aa"
+                    x = ["aaa"]
+                else if req.parent == "ab"
+                    x = ["aba", "abb"]
+                else if req.parent == "aba"
+                    x = ["abaa"]
+                else x =[]
+                (Categories.collection._transform _id: id for id in x)
+            
+        a = Categories.collection._transform _id: "a"
+        d = a.findDescendats();
+        expect(d).toEqual ["aaa", "aa", "abaa", "aba", "abb", "ab", "a"]
+        
+        
