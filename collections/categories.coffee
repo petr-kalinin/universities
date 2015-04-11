@@ -41,22 +41,28 @@ CategoriesCollection.helpers
                 order: order
                 collapsedByDefault: collapsedByDefault
                 
-    _collapsedKeyName: ->
-        "categoryCollapsed_" + this._id
+    _booleanPropertyName: (name) ->
+        "category_" + name + "_" + this._id
+        
+    _booleanProperty: (name, def) ->
+        if not (Session.get(@_booleanPropertyName(name))?)
+            if not (def?)
+                def = false
+            Session.set(@_booleanPropertyName(name), def)
+            return def
+        Session.get(@_booleanPropertyName(name))
+        
+    _toggleBooleanProperty: (name, def) ->
+        if @_booleanProperty(name, @collapsedByDefault)
+            Session.set(@_booleanPropertyName(name), false)
+        else 
+            Session.set(@_booleanPropertyName(name), true)
                 
     collapsed: ->
-        if not (Session.get(@_collapsedKeyName())?)
-            if not (@collapsedByDefault?)
-                @collapsedByDefault = false
-            Session.set(@_collapsedKeyName(), @collapsedByDefault)
-            return @collapsedByDefault
-        Session.get(@_collapsedKeyName())
+        @_booleanProperty("collapsed", @collapsedByDefault)
         
     invertCollapsed: ->
-        if @collapsed()
-            Session.set(@_collapsedKeyName(), false)
-        else 
-            Session.set(@_collapsedKeyName(), true)
+        @_toggleBooleanProperty("collapsed", @collapsedByDefault)
         
         
         

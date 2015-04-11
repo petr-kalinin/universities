@@ -101,9 +101,9 @@ describe "Category", ->
             .and.returnValue "true"
         spyOn Session, "get"
             .and.callFake (key) ->
-                if key == "categoryCollapsed_abc"
+                if key == "category_collapsed_abc"
                     return true
-                else if key == "categoryCollapsed_def"
+                else if key == "category_collapsed_def"
                     return false
                 else 
                     return undefined
@@ -121,7 +121,7 @@ describe "Category", ->
         expect(abc2.collapsed()).toBe(false)
         
         abc.invertCollapsed()
-        expect(Session.set).toHaveBeenCalledWith "categoryCollapsed_abc", false
+        expect(Session.set).toHaveBeenCalledWith "category_collapsed_abc", false
         
     it "should be possible to find all descendats", ->
         spyOn Categories.collection, "find"
