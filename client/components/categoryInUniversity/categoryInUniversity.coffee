@@ -13,6 +13,9 @@ Template.categoryInUniversity.events
     "click .collapse": (event) ->
         this.category.toggleCollapsed()
         false
+    "click .showReviews": (event) ->
+        this.category.toggleShowReviews()
+        false
 
 Template.categoryInUniversity.helpers
     subCategory: ->
@@ -23,20 +26,37 @@ Template.categoryInUniversity.helpers
         this.category.isLeaf() or this.category.collapsed()
     reviews: ->
         Reviews.find this.university, this.category, this.category.collapsed()
+    hasReviews: ->
+        Reviews.find this.university, this.category, this.category.collapsed()
+            .count() > 0
     canCreate: ->
         Reviews.userCanCreate()
+        
+    collapsed: ->
+        this.category.collapsed()
     collapseButtonDirection: ->
         if this.category.collapsed()
             "down"
         else
             "up"
-    collapsed: ->
-        this.category.collapsed()
     collapseTitle: ->
         if this.category.collapsed()
             "Развернуть"
         else
             "Свернуть"
+            
+    showReviews: ->
+        this.category.showReviews()
+    showReviewsButtonStatus: ->
+        if this.category.showReviews()
+            "close"
+        else
+            "open"
+    showReviewsTitle: ->
+        if this.category.showReviews()
+            "Скрыть отзывы"
+        else
+            "Показать отзывы"
         
         
 

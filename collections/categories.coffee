@@ -64,11 +64,11 @@ CategoriesCollection.helpers
     toggleCollapsed: ->
         @_toggleBooleanProperty("collapsed", @collapsedByDefault)
         
-    showComment: ->
-        @_booleanProperty("showComment", true)
+    showReviews: ->
+        @_booleanProperty("showReviews", true)
         
-    toggleShowComment: ->
-        @_toggleBooleanProperty("showComment", true)
+    toggleShowReviews: ->
+        @_toggleBooleanProperty("showReviews", true)
 
         
         

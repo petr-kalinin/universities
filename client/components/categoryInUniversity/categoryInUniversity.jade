@@ -7,9 +7,13 @@ template(name='categoryInUniversity')
             unless isLeaf
                 a(role="button",title="{{collapseTitle}}").collapse
                     span(class="glyphicon glyphicon-chevron-{{collapseButtonDirection}}")
+            if hasReviews
+                a(role="button",title="{{showReviewsTitle}}").showReviews
+                    span(class="glyphicon glyphicon-eye-{{showReviewsButtonStatus}}")
         ul.list-group
-            +each reviews
-                +review review=this
+            if showReviews
+                +each reviews
+                    +review review=this
             if isLeafOrCollapsed
                 if canCreate
                     +addReview
