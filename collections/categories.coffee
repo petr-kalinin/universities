@@ -61,9 +61,15 @@ CategoriesCollection.helpers
     collapsed: ->
         @_booleanProperty("collapsed", @collapsedByDefault)
         
-    invertCollapsed: ->
+    toggleCollapsed: ->
         @_toggleBooleanProperty("collapsed", @collapsedByDefault)
         
+    showComment: ->
+        @_booleanProperty("showComment", true)
+        
+    toggleShowComment: ->
+        @_toggleBooleanProperty("showComment", true)
+
         
         
 CategoriesCollection.allow

@@ -120,8 +120,24 @@ describe "Category", ->
         expect(def1.collapsed()).toBe(true)
         expect(abc2.collapsed()).toBe(false)
         
-        abc.invertCollapsed()
+        abc.toggleCollapsed()
         expect(Session.set).toHaveBeenCalledWith "category_collapsed_abc", false
+        
+    it "should be possible to show and hide comments", ->
+        spyOn Session, "get"
+            .and.callFake (key) ->
+                if key == "category_showComment_abc"
+                    return false
+                else if key == "category_showComment_def"
+                    return true
+                else 
+                    return undefined
+
+        abc = Categories.collection._transform _id: "abc"
+        def = Categories.collection._transform _id: "def"
+            
+        expect(abc.showComment()).toBe(false)
+        expect(def.showComment()).toBe(true)
         
     it "should be possible to find all descendats", ->
         spyOn Categories.collection, "find"

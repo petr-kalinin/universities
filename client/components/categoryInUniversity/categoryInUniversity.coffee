@@ -11,7 +11,7 @@ Template.categoryInUniversity.events
         event.target.text.value = ""
         false
     "click .collapse": (event) ->
-        this.category.invertCollapsed()
+        this.category.toggleCollapsed()
         false
 
 Template.categoryInUniversity.helpers
