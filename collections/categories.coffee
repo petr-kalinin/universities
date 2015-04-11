@@ -4,6 +4,7 @@ categoriesSchema = SimpleSchema.build SimpleSchema.timestamp,
         index: true
     'comment':
         type: String
+        optional: true
     'parent':
         type: String
         index: true
@@ -25,13 +26,14 @@ CategoriesCollection.helpers
         child = Categories.collection.findOne {parent: @_id}
         !child
         
-    update: (name, comment) ->
+    update: (name, comment, parent) ->
         if not Categories.canUpdate()
             throw new Meteor.Error "permission-denied", "Can't not update category"
         Categories.collection.update _id: @_id,
             $set:
                 name: name
                 comment: comment
+                parent: parent
                 
     _collapsedKeyName: ->
         "categoryCollapsed_" + this._id

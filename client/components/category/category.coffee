@@ -10,7 +10,12 @@ Template.category.events
     "submit .edit-category": (event) ->
         name = event.target.name.value
         comment = event.target.comment.value
-        this.update name, comment
+        parent = event.target.parent.value
+        console.log parent
+        if not Categories.findById(parent)
+            console.log "12"
+            return false
+        this.update name, comment, parent
         false
 
 Template.category.helpers

@@ -1,8 +1,10 @@
 template(name='category')
     li
+        =_id
         form.edit-category
             input(type="text",name="name",value='{{name}}',placeholder="Название категории")
             input(type="text",name="comment",value='{{comment}}',placeholder="Комментарий к категории")
+            input(type="text",name="parent",value='{{parent}}',placeholder="Родительская категория")
             input(type="submit", value="&gt;&gt;")
         ul
             +each subCategory
