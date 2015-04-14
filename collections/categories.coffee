@@ -40,23 +40,14 @@ CategoriesCollection.helpers
                 parent: parent
                 order: order
                 collapsedByDefault: collapsedByDefault
-                
+
+
+CategoriesCollection.helpers BooleanProperty
+
+
+CategoriesCollection.helpers
     _booleanPropertyName: (name) ->
         "category_" + name + "_" + this._id
-        
-    _booleanProperty: (name, def) ->
-        if not (Session.get(@_booleanPropertyName(name))?)
-            if not (def?)
-                def = false
-            Session.set(@_booleanPropertyName(name), def)
-            return def
-        Session.get(@_booleanPropertyName(name))
-        
-    _toggleBooleanProperty: (name, def) ->
-        if @_booleanProperty(name, @collapsedByDefault)
-            Session.set(@_booleanPropertyName(name), false)
-        else 
-            Session.set(@_booleanPropertyName(name), true)
                 
     collapsed: ->
         @_booleanProperty("collapsed", @collapsedByDefault)
@@ -69,6 +60,7 @@ CategoriesCollection.helpers
         
     toggleShowReviews: ->
         @_toggleBooleanProperty("showReviews", true)
+        
 
         
         

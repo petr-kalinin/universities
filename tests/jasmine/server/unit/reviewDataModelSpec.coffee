@@ -96,7 +96,7 @@ describe "Review", ->
             limit:10
             sort: {createdAt: 1}
 
-    it "should be possible to cout all", ->
+    it "should be possible to count all", ->
         spyOn Reviews.collection, "find"
             .and.returnValue count: -> return 3
 
@@ -122,51 +122,71 @@ describe "Review", ->
     it "should not be possible to remove for non-author", ->
         spyOn Reviews.collection, "remove"
             .and.returnValue true
+        spyOn Reviews.collection, "update"
+            .and.returnValue true
         spyOn Users, "currentUser"
             .and.returnValue {_id: "user1", isAdmin: -> false}
         
         c = Reviews.collection._transform _id: "111", author: "user2"
-        expect(c.canRemove()).toBe(false)
+        expect(c.canUpdate()).toBe(false)
         expect(c.remove).toThrow()
+        expect(-> c.update("text")).toThrow()
             
         expect(Users.currentUser).toHaveBeenCalled()
         expect(Reviews.collection.remove).not.toHaveBeenCalled()
+        expect(Reviews.collection.update).not.toHaveBeenCalled()
         
     it "should not be possible to remove for non-logged-in", ->
         spyOn Reviews.collection, "remove"
+            .and.returnValue true
+        spyOn Reviews.collection, "update"
             .and.returnValue true
         spyOn Users, "currentUser"
             .and.returnValue null
         
         c = Reviews.collection._transform _id: "111", author: "user2"
-        expect(c.canRemove()).toBe(false)
+        expect(c.canUpdate()).toBe(false)
         expect(c.remove).toThrow()
+        expect(-> c.update("text")).toThrow()
             
         expect(Users.currentUser).toHaveBeenCalled()
         expect(Reviews.collection.remove).not.toHaveBeenCalled()
+        expect(Reviews.collection.update).not.toHaveBeenCalled()
         
     it "should be possible to remove for author", ->
         spyOn Reviews.collection, "remove"
+            .and.returnValue true
+        spyOn Reviews.collection, "update"
             .and.returnValue true
         spyOn Users, "currentUser"
             .and.returnValue _id: "user2"
         
         c = Reviews.collection._transform _id: "111", author: "user2"
+        c.update("abc")
         c.remove()
             
         expect(Users.currentUser).toHaveBeenCalled()
+        expect(Reviews.collection.update).toHaveBeenCalledWith _id: "111",
+            $set:
+                text: "abc"
         expect(Reviews.collection.remove).toHaveBeenCalledWith "111"
         
     it "should be possible to remove for admin", ->
         spyOn Reviews.collection, "remove"
             .and.returnValue true
+        spyOn Reviews.collection, "update"
+            .and.returnValue true
         spyOn Users, "currentUser"
             .and.returnValue {_id: "user1", isAdmin: -> true}
         
         c = Reviews.collection._transform _id: "111", author: "user2"
+        c.update("abc")
         c.remove()
             
         expect(Users.currentUser).toHaveBeenCalled()
+        expect(Reviews.collection.update).toHaveBeenCalledWith _id: "111",
+            $set:
+                text: "abc"
         expect(Reviews.collection.remove).toHaveBeenCalledWith "111"
         
     it "should return author", ->

@@ -20,10 +20,13 @@ ReviewsCollection.allow
         trDoc.canCreate()
     remove: (userId, doc) ->
         trDoc = ReviewsCollection._transform doc
-        trDoc.canRemove()
+        trDoc.canUpdate()
+    update: (userId, doc) ->
+        trDoc = ReviewsCollection._transform doc
+        trDoc.canUpdate()
         
 ReviewsCollection.helpers
-    canRemove: ->
+    canUpdate: ->
         user = Users.currentUser()
         if user && (user._id == @author || user.isAdmin())
             return true
@@ -38,10 +41,17 @@ ReviewsCollection.helpers
             return false
 
     remove: ->
-        if @canRemove()
+        if @canUpdate()
             Reviews.collection.remove @_id
         else
             throw new Meteor.Error "permission-denied", "Only author can remove review"
+
+    update: (text) ->
+        if not @canUpdate()
+            throw new Meteor.Error "permission-denied", "Only author can remove review"
+        Reviews.collection.update _id: @_id,
+            $set:
+                text: text
     
     getAuthor: ->
         Users.findById(this.author)
@@ -57,6 +67,19 @@ ReviewsCollection.helpers
             @createdAt
         else
             defaultCreatedDate
+            
+ReviewsCollection.helpers BooleanProperty
+
+ReviewsCollection.helpers
+    _booleanPropertyName: (name) ->
+        "reviews_" + name + "_" + this._id
+
+    isEdited: ->
+        @_booleanProperty("isEdited", false)
+        
+    toggleIsEdited: ->
+        @_toggleBooleanProperty("isEdited", false)
+            
 
 
 Reviews =

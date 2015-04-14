@@ -1,11 +1,11 @@
 Template.categoryInUniversity.events
-    "keydown": (event) ->
+    "keydown .new-review": (event) ->
         if (event.keyCode == 13)&&(event.ctrlKey)
             text = event.target.value
             Reviews.create this.university, this.category, text, Users.currentUser()
             event.target.value = ""
             false
-    "submit": (event) ->
+    "submit .new-review": (event) ->
         text = event.target.text.value
         Reviews.create this.university, this.category, text, Users.currentUser()
         event.target.text.value = ""
