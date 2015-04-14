@@ -3,3 +3,7 @@ Template.universityShort.events
         this.remove()
         false
 
+Template.universityShort.helpers
+    reviewsNumber: ->
+        Reviews.findByUniversity this
+            .count()

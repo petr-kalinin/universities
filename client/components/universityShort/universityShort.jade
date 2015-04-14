@@ -3,4 +3,8 @@ template(name='universityShort')
         =name
         if canRemove
             button.close.remove(title="Удалить") &times;
+        else
+            span.text-muted.reviews(title="Количество отзывов")
+                =reviewsNumber
+        
         
