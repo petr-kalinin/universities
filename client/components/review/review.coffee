@@ -45,4 +45,7 @@ Template.review.helpers
             textarea = $("#review_" + @review._id)
             textarea.focus()
             autosize(textarea))
+        
+    needCategory: ->
+        (not (@showAll)) and (@review.category != @category._id)
     

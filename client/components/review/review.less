@@ -3,7 +3,7 @@
     padding: 0px;
     padding-bottom: 1ex;
 }
-.review p:last-child {
+.review p:last-child, .review p:first-of-type {
     display:inline;
 }
 .text {
@@ -17,4 +17,10 @@
 .signature {
     white-space:nowrap;
     margin-right:2em;
+}
+.category {
+    font-weight: bold;
+}
+.category:after {
+    content: ":"
 }
