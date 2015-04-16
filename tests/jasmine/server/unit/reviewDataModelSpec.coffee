@@ -209,3 +209,11 @@ describe "Review", ->
         expect(Universities.findById).toHaveBeenCalledWith "univ"
         expect(Categories.findById).toHaveBeenCalledWith "cat"
         
+    it "should be able to find by its id", ->
+        spyOn Reviews.collection, "findOne"
+            .and.returnValue "foo"
+        
+        result = Reviews.findById("bar")
+        
+        expect(result).toBe("foo")
+        expect(Reviews.collection.findOne).toHaveBeenCalledWith _id: "bar"

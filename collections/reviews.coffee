@@ -122,6 +122,9 @@ Reviews =
         
     findByUniversity: (university) ->
         @collection.find {university: university._id}, sort: {createdAt: 1}
+
+    findById: (id) ->
+        @collection.findOne _id: id
         
     count: ->
         @findAll().count()
