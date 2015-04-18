@@ -1,5 +1,5 @@
 Router.route '/categories', name: 'category'
-class @CategoryController extends RouteController
+class @CategoryController extends ControllerWithTitle
     subscriptions: ->
         @subscribe 'categories'
         @subscribe 'users'

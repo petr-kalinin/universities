@@ -1,5 +1,5 @@
 Router.route '/university', name: 'allUniversities'
-class @AllUniversitiesController extends RouteController
+class @AllUniversitiesController extends ControllerWithTitle
     subscriptions: ->
         @subscribe 'universities'
         @subscribe 'reviews'

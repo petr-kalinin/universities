@@ -2,7 +2,7 @@ varName = (inst, name = null) ->
     name = name && "_#{name}" || ""
     "#{inst.constructor.name}#{name}_limit"
 
-class @PagableRouteController extends RouteController
+class @PagableRouteController extends ControllerWithTitle
     pageable: true
     perPage: 10
 

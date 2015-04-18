@@ -1,5 +1,5 @@
 Router.route '/university/:id', name: 'university'
-class @UniversityController extends RouteController
+class @UniversityController extends ControllerWithTitle
     subscriptions: ->
         @subscribe 'universities'
         @subscribe 'categories'
@@ -12,3 +12,7 @@ class @UniversityController extends RouteController
     
     name: ->
         'university'
+        
+    title: ->
+        Universities.findById this.params.id
+            .name

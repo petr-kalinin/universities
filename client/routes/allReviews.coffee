@@ -17,3 +17,6 @@ class @AllReviewsController extends PagableRouteController
     onRun: ->
         @resetLimit()
         @next()
+        
+    title: ->
+        "Последние отзывы"
