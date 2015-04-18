@@ -71,6 +71,7 @@ service-configuration@1.0.3
 session@1.0.5
 spacebars@1.0.5
 spacebars-compiler@1.0.4
+spiderable@1.0.6
 templating@1.0.11
 tracker@1.0.5
 ui@1.0.5
