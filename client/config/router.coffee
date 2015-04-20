@@ -1,2 +1,2 @@
 Router.configure
-  layoutTemplate: "application"
+    layoutTemplate: "application"
