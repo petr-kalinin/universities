@@ -1,0 +1,9 @@
+template(name='reviewComments')
+    h1
+        | Отзыв
+    +review review=this
+    ul.list-group
+        +each comments
+            +comment
+        +addComment
+

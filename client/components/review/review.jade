@@ -25,6 +25,7 @@ template(name='review')
                             =universityName
                         | , 
                     =formattedCreatedDate
+                    a(href="/review/{{review._id}}") C
                     if review.canUpdate
                         a(role="button",title="{{Редактировать}}").edit
                             span.glyphicon.glyphicon-pencil
