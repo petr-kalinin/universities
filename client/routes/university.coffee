@@ -5,6 +5,7 @@ class @UniversityController extends ControllerWithTitle
         @subscribe 'categories'
         @subscribe 'universityReviews', @params.id
         @subscribe 'users'
+        @subscribe 'comments'
         
     data: ->
         uId = this.params.id
@@ -15,7 +16,7 @@ class @UniversityController extends ControllerWithTitle
         
     title: ->
         Universities.findById this.params.id
-            .name
+            ?.name
             
     getUniversity: ->
         Universities.findById this.params.id

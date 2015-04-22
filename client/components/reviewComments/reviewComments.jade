@@ -4,7 +4,8 @@ template(name='reviewComments')
             =universityName
     h2
         =categoryName
-    +review review=this showCategory=false
+    .reviewWithComments
+        +review review=this showCategory=false
     ul.list-group
         +each comments
             +comment

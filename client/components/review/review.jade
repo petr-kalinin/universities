@@ -24,7 +24,10 @@ template(name='review')
                         =universityName
                     | , 
                 =formattedCreatedDate
-                a(href="/review/{{review._id}}") C
+                a(href="/review/{{review._id}}")
+                    span.glyphicon.glyphicon-comment
+                    if numComments
+                        =numComments
                 if review.canUpdate
                     a(role="button",title="{{Редактировать}}").edit
                         span.glyphicon.glyphicon-pencil

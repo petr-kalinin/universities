@@ -46,8 +46,8 @@ Template.review.helpers
             textarea.focus()
             autosize(textarea))
         
-
-        
     needCategory: ->
         (not (@showAll)) and (@review.category != @category?._id) and (@showCategory)
     
+    numComments: ->
+        Comments.find(@review).count()
