@@ -1,6 +1,6 @@
 Router.route '/university/:id', name: 'university'
 class @UniversityController extends ControllerWithTitle
-    subscriptions: ->
+    waitOn: ->
         @subscribe 'universities'
         @subscribe 'categories'
         @subscribe 'universityReviews', @params.id
@@ -16,3 +16,7 @@ class @UniversityController extends ControllerWithTitle
     title: ->
         Universities.findById this.params.id
             .name
+            
+    getUniversity: ->
+        Universities.findById this.params.id
+            

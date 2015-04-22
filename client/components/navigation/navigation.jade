@@ -8,9 +8,12 @@ template(name='navigation')
                     ul.nav.navbar-nav
                         li(class='{{isActive "university" null}}')
                             a(href="/university") Университеты
+                        if currentUniversity
+                            li(class="{{currentUniversity.active}}")
+                                a(href="/university/{{currentUniversity.univ._id}}") 
+                                    =currentUniversity.univ.name
                         li(class='dropdown {{currentUniversity.active}}')
-                            a(href="/university",class="dropdown-toggle",data-toggle="dropdown",role="button",aria-expanded="false") 
-                                =currentUniversity.name
+                            a(href="",class="dropdown-toggle",data-toggle="dropdown",role="button",aria-expanded="false")
                                 span.caret
                             ul.dropdown-menu(role=menu)
                                 +each universities

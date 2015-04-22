@@ -1,6 +1,6 @@
 Router.route '/categories', name: 'category'
 class @CategoryController extends ControllerWithTitle
-    subscriptions: ->
+    waitOn: ->
         @subscribe 'categories'
         @subscribe 'users'
         

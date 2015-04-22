@@ -1,6 +1,6 @@
 Router.route '/university', name: 'allUniversities'
 class @AllUniversitiesController extends ControllerWithTitle
-    subscriptions: ->
+    waitOn: ->
         @subscribe 'universities'
         @subscribe 'reviews'
         @subscribe 'users'

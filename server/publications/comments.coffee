@@ -1,3 +1,3 @@
 Meteor.publish 'reviewComments', (id) ->
-    Comments.find(id)
+    Comments.find(Reviews.findById(id))
 

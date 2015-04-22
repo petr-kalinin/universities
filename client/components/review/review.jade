@@ -1,32 +1,31 @@
 template(name='review')
-    li.list-group-item
-        .review
-            if review.isEdited
-                form.edit-review
-                    textarea.form-control(type="text",name="text",rows="1",placeholder="Введите отзыв",id="review_{{review._id}}")
-                        =review.text
-                    =editHelper
-                    if focused
-                        .container-fluid.text-muted.small
-                            | Поддерживается <a href="https://help.github.com/articles/github-flavored-markdown/">Github flawored markdown</a>. Нажмите Enter для перевода строки, Ctrl-Enter чтобы отправить. Отправляя отзыв, вы соглашаетесь опубликовать его на условиях лицензии <a href="https://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution Share-Alike 3.0</a>.
-            else
-                .text
-                    if needCategory
-                        span.category
-                            =categoryName
-                    +markdownStub review.text
-                span.signature
-                    +user review.getAuthor
-                    if showAll
-                        | , 
+    .review
+        if review.isEdited
+            form.edit-review
+                textarea.form-control(type="text",name="text",rows="1",placeholder="Введите отзыв",id="review_{{review._id}}")
+                    =review.text
+                =editHelper
+                if focused
+                    .container-fluid.text-muted.small
+                        | Поддерживается <a href="https://help.github.com/articles/github-flavored-markdown/">Github flawored markdown</a>. Нажмите Enter для перевода строки, Ctrl-Enter чтобы отправить. Отправляя отзыв, вы соглашаетесь опубликовать его на условиях лицензии <a href="https://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution Share-Alike 3.0</a>.
+        else
+            .text
+                if needCategory
+                    span.category
                         =categoryName
-                        | , 
-                        a(href="/university/{{university._id}}")
-                            =universityName
-                        | , 
-                    =formattedCreatedDate
-                    a(href="/review/{{review._id}}") C
-                    if review.canUpdate
-                        a(role="button",title="{{Редактировать}}").edit
-                            span.glyphicon.glyphicon-pencil
-                        button.close.remove(title="Удалить") &times;
+                +markdownStub review.text
+            span.signature
+                +user review.getAuthor
+                if showAll
+                    | , 
+                    =categoryName
+                    | , 
+                    a(href="/university/{{university._id}}")
+                        =universityName
+                    | , 
+                =formattedCreatedDate
+                a(href="/review/{{review._id}}") C
+                if review.canUpdate
+                    a(role="button",title="{{Редактировать}}").edit
+                        span.glyphicon.glyphicon-pencil
+                    button.close.remove(title="Удалить") &times;

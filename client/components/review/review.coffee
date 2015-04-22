@@ -49,5 +49,5 @@ Template.review.helpers
 
         
     needCategory: ->
-        (not (@showAll)) and (@review.category != @category._id)
+        (not (@showAll)) and (@review.category != @category?._id) and (@showCategory)
     

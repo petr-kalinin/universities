@@ -2,7 +2,7 @@ Router.route '/reviews', name: 'allReviews'
 class @AllReviewsController extends PagableRouteController
     perPage: 10
 
-    subscriptions: ->
+    waitOn: ->
         @subscribe 'reviews', @limit()
         @subscribe 'universities'
         @subscribe 'users'

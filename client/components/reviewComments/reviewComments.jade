@@ -1,9 +1,13 @@
 template(name='reviewComments')
     h1
-        | Отзыв
-    +review review=this
+        a(href='/university/{{this.university}}')
+            =universityName
+    h2
+        =categoryName
+    +review review=this showCategory=false
     ul.list-group
         +each comments
             +comment
-        +addComment
+        if canCreate
+            +addComment
 

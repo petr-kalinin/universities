@@ -1,6 +1,6 @@
 Router.route '/review/:id', name: 'reviewComments'
 class @ReviewCommentsController extends ControllerWithTitle
-    subscriptions: ->
+    waitOn: ->
         @subscribe 'universities'
         @subscribe 'categories'
         @subscribe 'reviews'
@@ -15,4 +15,13 @@ class @ReviewCommentsController extends ControllerWithTitle
         'reviewComments'
         
     title: ->
-        "Отзыв"
+        univ = @getUniversity().name
+        if univ
+            @getUniversity().name + " — отзыв"
+        else 
+            ""
+        
+    getUniversity: ->
+        Reviews.findById this.params.id
+            ?.getUniversity()
+    

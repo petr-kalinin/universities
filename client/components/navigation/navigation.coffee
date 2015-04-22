@@ -11,9 +11,9 @@ Template.navigation.helpers
             
     currentUniversity: ->
         router = Router.current()
-        if not (router && router.name && router.name() == 'university' && router.data())
-            return name: '', active: ''
-        return  name: router.data().name, active: 'active'
+        if (router?.getUniversity)
+            return univ: router.getUniversity(),  active: 'active'
+        return undefined
             
     universities: ->
         Universities.findAll true

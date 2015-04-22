@@ -1,6 +1,6 @@
 Router.route '/', name: 'home'
 class @HomeController extends ControllerWithTitle
-    subscriptions: ->
+    waitOn: ->
         @subscribe 'universities'
         @subscribe 'reviews'
         @subscribe 'users'
