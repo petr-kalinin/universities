@@ -24,11 +24,14 @@ template(name='review')
                         =universityName
                     | , 
                 =formattedCreatedDate
-                a(href="/review/{{review._id}}")
-                    span.glyphicon.glyphicon-comment
-                    if numComments
-                        =numComments
-                if review.canUpdate
-                    a(role="button",title="{{Редактировать}}").edit
-                        span.glyphicon.glyphicon-pencil
-                    button.close.remove(title="Удалить") &times;
+                span.icon-group
+                    a(href="/review/{{review._id}}",title="Комментировать").icon
+                        span.glyphicon.glyphicon-comment
+                        if numComments
+                            span.num-comments
+                                =numComments
+                    if review.canUpdate
+                        a(role="button",title="Редактировать").edit
+                            span.glyphicon.glyphicon-pencil
+                        a(role="button",title="Удалить").remove
+                            span.glyphicon.glyphicon-remove

@@ -1,5 +1,9 @@
 @import "client/lib/bootstrap/custom.bootstrap.import.less";
-a[role="button"] {
+a[role="button"], a.icon {
     cursor:pointer;
-    color:lighten(@link-color, 10%);
+    color:@gray-light;
+}
+a[role="button"]:hover, a.icon:hover {
+    cursor:pointer;
+    color:@link-color;
 }
