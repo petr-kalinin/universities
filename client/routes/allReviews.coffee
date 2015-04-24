@@ -7,6 +7,7 @@ class @AllReviewsController extends PagableRouteController
         @subscribe 'universities'
         @subscribe 'users'
         @subscribe 'categories'
+        @subscribe 'comments'
 
     data: ->
         Reviews.findAll()
