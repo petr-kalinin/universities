@@ -8,4 +8,5 @@ Meteor.startup ->
         service: 'vk'
         appId:   vkdata.appId
         secret:  vkdata.secret
+        scope: "notify"
 
