@@ -76,6 +76,18 @@ describe "Review", ->
             category: "cat"
         }, {sort: {createdAt: 1}}
                 
+    it "should be possible to find by user", ->
+        spyOn Reviews.collection, "find"
+            .and.returnValue "111"
+    
+        user1 = {_id: "user"}
+        a = Reviews.findByUser user1
+
+        expect(a).toBe("111")
+        expect(Reviews.collection.find).toHaveBeenCalledWith {
+            author: "user"
+        }, {sort: {createdAt: 1}}
+                
     it "should be possible to find all", ->
         spyOn Reviews.collection, "find"
             .and.returnValue "111"

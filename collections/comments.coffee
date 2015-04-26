@@ -95,6 +95,11 @@ Comments =
             review: review._id
         }, sort: {createdAt: 1}
         
+    findByUser: (user) ->
+        @collection.find {
+            author: user._id
+        }, sort: {createdAt: 1}
+        
     findAll: (limit = undefined, sort = undefined) ->
         if not sort
             sort = -1
@@ -107,3 +112,4 @@ Comments =
     collection: CommentsCollection
     
 @Comments = Comments
+

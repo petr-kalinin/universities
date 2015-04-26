@@ -19,6 +19,12 @@ Meteor.users.helpers
             "https://vk.com/id" + @services.vk.id
         else
             undefined
+
+    externalProfileName: ->
+        if @services?.vk?.id
+            "Профиль вКонтакте"
+        else
+            undefined
     
     avatar: ->
         @services?.vk?.photo

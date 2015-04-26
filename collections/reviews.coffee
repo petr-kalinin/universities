@@ -117,6 +117,11 @@ Reviews =
         sort = createdAt: sort
         @collection.find {}, if limit then limit: limit, sort: sort else sort: sort
         
+    findByUser: (user) ->
+        @collection.find {
+            author: user._id
+        }, sort: {createdAt: 1}
+        
     findOneByUniversity: (university) ->
         @collection.findOne university: university._id
         
