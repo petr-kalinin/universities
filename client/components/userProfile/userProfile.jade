@@ -1,0 +1,17 @@
+template(name='userProfile')
+    .row.user-profile
+        .col-sm-1.col-xs-2
+            img(src=avatar)
+        .col-sm-5.col-xs-10
+            h1
+                =name
+            a(href=externalProfile)
+                =externalProfileName
+        .col-sm-3.col-xs-6
+            |отзывов
+            h1
+                =reviewCount
+        .col-sm-3.col-xs-6
+            |комментариев
+            h1
+                =commentCount
