@@ -88,7 +88,8 @@ Comments =
         doc = @collection._transform baseDoc
         if not doc.canCreate()
             throw new Meteor.Error "permission-denied", "Can't not create comments"
-        @collection.insert baseDoc
+        doc._id = @collection.insert baseDoc
+        Notifications.createFromComment doc
         
     find: (review) ->
         @collection.find {

@@ -1,16 +1,25 @@
 describe "Comment", ->
     it "should be created with review, text, author", ->
         spyOn Comments.collection, "insert"
-            .and.returnValue true
+            .and.returnValue 123 #returns is of inserted doc
         spyOn Users, "currentUser"
             .and.returnValue _id: "user"
+        spyOn Notifications, "createFromComment"
+            .and.returnValue true
 
         Comments.create {_id: "rev"}, "text", {_id: "user"}
  
-        expect(Comments.collection.insert.calls.mostRecent().args[0]).toEqual
+        expectedDoc = 
             review: "rev",
             text: "text",
             author: "user"
+    
+        expect(Comments.collection.insert.calls.mostRecent().args[0]).toEqual expectedDoc
+        # note that Notifications.createFromComment is given full comment, not the db entry
+        expectedDoc._id = 123
+        call = Notifications.createFromComment.calls.mostRecent().args[0]
+        expect(call).toEqual Comments.collection._transform expectedDoc
+            
                 
     it "should not be created without required fields", ->
         spyOn Comments.collection, "insert"
