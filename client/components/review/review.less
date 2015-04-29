@@ -9,11 +9,6 @@
 .text {
     display:inline;
 }
-.user:before {
-    padding-left:1em;
-    padding-right:0.5em;
-    content:"— ";
-}
 .signature {
     white-space:nowrap;
     margin-right:2em;
@@ -24,6 +19,11 @@
 .category:after {
     content: ":"
 }
+.user:before {
+    padding-left:1em;
+    padding-right:0.5em;
+    content:"— ";
+}
 .icon-group > * {
     padding-left:0.3em;
     padding-right: 0.3em;
@@ -33,4 +33,7 @@
 }
 .num-comments{
     margin-right:-0.2em;
+}
+.user {
+    font-style:italic;
 }

@@ -140,7 +140,8 @@ Template._loginButtonsLoggedIn.helpers({
 //
 
 Template._loginButtonsLoggedInSingleLogoutButton.helpers({
-  displayName: displayName
+  displayName: displayName,
+  currentUser: function() { if (Users) return Users.currentUser(); else return undefined; }
 });
 
 

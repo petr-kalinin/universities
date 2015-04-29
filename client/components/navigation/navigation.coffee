@@ -17,3 +17,6 @@ Template.navigation.helpers
             
     universities: ->
         Universities.findAll true
+        
+    currentUser: ->
+        Users.currentUser()

@@ -1,5 +1,4 @@
 template(name='user')
-    span.user
-        a(href="/user/{{this._id}}")
-            img(src=avatar)
-            =name
+    a(href="/user/{{this._id}}")
+        img.avatar(src=avatar)
+        =name

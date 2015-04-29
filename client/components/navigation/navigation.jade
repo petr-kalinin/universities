@@ -20,10 +20,12 @@ template(name='navigation')
                                     li(class='{{isActive "university" _id}}')
                                         a(href="/university/{{_id}}")
                                             =name
-                    ul.nav.navbar-nav
                         li(class='{{isActive "reviews" null}}')
                             a(href="/reviews") Последние отзывы
                     .nav.navbar-right 
+                        ul.nav.navbar-nav
+                            li
+                                +user currentUser
                         p.navbar-login.navbar-text
                             +loginButtons
                     

@@ -15,7 +15,8 @@ template(name='review')
                         =categoryName
                 +markdownStub review.text
             span.signature
-                +user review.getAuthor
+                span.user
+                    +user review.getAuthor
                 if showAll
                     |, 
                     =categoryName
