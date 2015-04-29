@@ -193,3 +193,11 @@ describe "Comment", ->
         expect(Users.findById).toHaveBeenCalledWith "user"
         expect(Reviews.findById).toHaveBeenCalledWith "rev"
         
+    it "should be able to find by its id", ->
+        spyOn Comments.collection, "findOne"
+            .and.returnValue "foo"
+        
+        result = Comments.findById("bar")
+        
+        expect(result).toBe("foo")
+        expect(Comments.collection.findOne).toHaveBeenCalledWith "bar"

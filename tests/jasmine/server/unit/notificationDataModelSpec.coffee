@@ -27,3 +27,21 @@ describe "Notification", ->
                 user: "user1"
             }, sort: {createdAt: 1}
  
+    it "should be able to get comment", ->
+        spyOn Comments, "findById"
+            .and.returnValue "123"
+
+        iscomment = Notifications.collection._transform 
+            type: "comment"
+            event: "qwe"
+        noncomment = Notifications.collection._transform 
+            type: "noncomment"
+            event: "abc"
+        
+        expect(iscomment.isComment()).toBe(true)
+        expect(noncomment.isComment()).toBe(false)
+        expect(iscomment.comment()).toBe("123")
+        expect(noncomment.comment).toThrow()
+        
+        expect(Comments.findById).toHaveBeenCalledWith "qwe"
+ 

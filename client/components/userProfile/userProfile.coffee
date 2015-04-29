@@ -4,3 +4,9 @@ Template.userProfile.helpers
 
     commentCount: -> 
         Comments.findByUser(this).count()
+        
+    isSelf: ->
+        this._id == Users.currentUser()?._id
+        
+    notifications: ->
+        Notifications.findByUser(Users.currentUser())

@@ -15,3 +15,10 @@ template(name='userProfile')
             |комментариев
             h1
                 =commentCount
+                
+    if isSelf
+        h3 Сообщения
+        ul.list-group
+        +each notifications
+            li.list-group-item
+                +notification

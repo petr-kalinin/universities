@@ -15,6 +15,14 @@ NotificationsCollection.allow
         Meteor.isServer
 
 NotificationsCollection.helpers
+    isComment: ->
+        @type == "comment"
+        
+    comment: ->
+        if (!@isComment)
+            throw new Meteor.Error "wrong-notification-type", "Notification is not a comment"
+        Comments.findById(@event)
+            
 
 Notifications =
     createFromComment: (comment) ->
@@ -23,9 +31,12 @@ Notifications =
         @collection.insert baseDoc
         
     findByUser: (user) ->
-        @collection.find {
-            user: user._id
-        }, sort: {createdAt: 1}
+        if user?._id
+            @collection.find {
+                user: user._id
+            }, sort: {createdAt: 1}
+        else
+            undefined
 
     collection: NotificationsCollection
     

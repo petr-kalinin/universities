@@ -96,6 +96,9 @@ Comments =
             review: review._id
         }, sort: {createdAt: 1}
         
+    findById: (id)->
+        @collection.findOne id
+
     findByUser: (user) ->
         @collection.find {
             author: user._id

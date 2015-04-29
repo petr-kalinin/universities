@@ -6,6 +6,8 @@ class @UserProfileController extends ControllerWithTitle
     subscriptions: ->
         @subscribe 'reviews'
         @subscribe 'comments'
+        if Users.currentUser()
+            @subscribe 'userNotifications'
         
     data: ->
         uId = this.params.id
