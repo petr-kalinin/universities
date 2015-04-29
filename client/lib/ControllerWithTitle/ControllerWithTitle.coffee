@@ -6,5 +6,7 @@ class @ControllerWithTitle extends RouteController
         thisTitle = @title()
         if !!@title()
             thisTitle = thisTitle + " — "
+        else 
+            thisTitle = ""
         thisTitle = thisTitle + "Обзор университетов"
         SEO.set title: thisTitle
