@@ -1,0 +1,9 @@
+template(name='userNav')
+    if currentUser
+        ul.nav.navbar-nav.userNav
+            li
+                +user currentUser
+    p.navbar-login.navbar-text
+        +loginButtons
+                    
+    

@@ -2,3 +2,6 @@ template(name='user')
     a(href="/user/{{this._id}}")
         img.avatar(src=avatar)
         =name
+        if badge
+            span.badge
+                =badge

@@ -1,11 +1,15 @@
 notificationsSchema = SimpleSchema.build SimpleSchema.timestamp,
-  'user':
-    type: String
-    index: true
-  'type':
-    type: String
-  'event':
-    type: String
+    'user':
+        type: String
+        index: true
+    'type':
+        type: String
+    'event':
+        type: String
+    'notified':
+        type: Boolean
+    'read':
+        type: Boolean
 
 NotificationsCollection = new Mongo.Collection 'notifications'
 NotificationsCollection.attachSchema notificationsSchema
@@ -27,13 +31,22 @@ NotificationsCollection.helpers
 Notifications =
     createFromComment: (comment) ->
         user = Reviews.findById(comment.review).author
-        baseDoc = user: user, type: "comment", event: comment._id
+        baseDoc = user: user, type: "comment", event: comment._id, read: false, notified: false
         @collection.insert baseDoc
         
     findByUser: (user) ->
         if user?._id
             @collection.find {
                 user: user._id
+            }, sort: {createdAt: 1}
+        else
+            undefined
+            
+    findMyUnread: ->
+        if Users.currentUser()
+            @collection.find {
+                user: Users.currentUser()._id,
+                read: false
             }, sort: {createdAt: 1}
         else
             undefined

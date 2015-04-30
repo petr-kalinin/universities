@@ -4,3 +4,5 @@ class @HomeController extends ControllerWithTitle
         @subscribe 'universities'
         @subscribe 'reviews'
         @subscribe 'users'
+        if Users.currentUser()
+            @subscribe 'userNotifications'

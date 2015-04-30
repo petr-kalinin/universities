@@ -22,7 +22,7 @@ Template.review.events
 
 Template.review.helpers
     formattedCreatedDate: ->
-        moment(this.review.createdDate()).format('D.MM.YYYY')
+        moment(this.review?.createdDate()).format('D.MM.YYYY')
         
     university: ->
         @review.getUniversity()

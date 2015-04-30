@@ -5,7 +5,11 @@ class @UniversityController extends ControllerWithTitle
         @subscribe 'categories'
         @subscribe 'universityReviews', @params.id
         @subscribe 'users'
+        
+    subscriptions: ->
         @subscribe 'comments'
+        if Users.currentUser()
+            @subscribe 'userNotifications'
         
     data: ->
         uId = this.params.id

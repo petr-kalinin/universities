@@ -7,6 +7,10 @@ class @ReviewCommentsController extends ControllerWithTitle
         @subscribe 'reviewComments', @params.id
         @subscribe 'users'
         
+    subscriptions: ->
+        if Users.currentUser()
+            @subscribe 'userNotifications'
+        
     data: ->
         uId = this.params.id
         Reviews.findById uId

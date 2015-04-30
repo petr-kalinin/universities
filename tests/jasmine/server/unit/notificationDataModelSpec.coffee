@@ -13,7 +13,9 @@ describe "Notification", ->
             .toHaveBeenCalledWith 
                 user: "user1", 
                 type: "comment", 
-                event: "event1"
+                event: "event1",
+                read: false,
+                notified: false
                     
     it "should be able to find by user", ->
         spyOn Notifications.collection, "find"
@@ -45,3 +47,18 @@ describe "Notification", ->
         
         expect(Comments.findById).toHaveBeenCalledWith "qwe"
  
+    it "should be able to find unread", ->
+        spyOn Users, "currentUser"
+            .and.returnValue _id: "123"
+        spyOn Notifications.collection, "find"
+            .and.returnValue "res"
+        
+        x = Notifications.findMyUnread()
+        
+        expect(x).toBe("res")
+        expect(Users.currentUser).toHaveBeenCalled()
+        expect(Notifications.collection.find).toHaveBeenCalledWith {
+                user: "123",
+                read: false
+            }, sort: {createdAt: 1}
+            
