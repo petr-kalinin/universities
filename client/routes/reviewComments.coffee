@@ -15,7 +15,7 @@ class @ReviewCommentsController extends ControllerWithTitle
         'reviewComments'
         
     title: ->
-        univ = @getUniversity().name
+        univ = @getUniversity()?.name
         if univ
             @getUniversity().name + " — отзыв"
         else 

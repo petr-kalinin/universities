@@ -26,11 +26,12 @@ template(name='review')
                     | , 
                 =formattedCreatedDate
                 span.icon-group
-                    a(href="/review/{{review._id}}",title="Комментировать").icon
-                        span.glyphicon.glyphicon-comment
-                        if numComments
-                            span.num-comments
-                                =numComments
+                    unless hideComments
+                        a(href="/review/{{review._id}}",title="Комментировать").icon
+                            span.glyphicon.glyphicon-comment
+                            if numComments
+                                span.num-comments
+                                    =numComments
                     if review.canUpdate
                         a(role="button",title="Редактировать").edit
                             span.glyphicon.glyphicon-pencil
