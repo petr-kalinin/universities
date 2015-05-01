@@ -27,7 +27,7 @@ describe "Notification", ->
         expect(Notifications.collection.find)
             .toHaveBeenCalledWith {
                 user: "user1"
-            }, sort: {createdAt: 1}
+            }, sort: {createdAt: -1}
  
     it "should be able to get comment", ->
         spyOn Comments, "findById"
@@ -60,5 +60,23 @@ describe "Notification", ->
         expect(Notifications.collection.find).toHaveBeenCalledWith {
                 user: "123",
                 read: false
-            }, sort: {createdAt: 1}
+            }, sort: {createdAt: -1}
+        
+    it "should be possible to update for author", ->
+        spyOn Notifications.collection, "update"
+            .and.returnValue true
+        spyOn Users, "currentUser"
+            .and.returnValue _id: "user2"
+        
+        c = Notifications.collection._transform _id: "111", user: "user2"
+        expect(c.canUpdate()).toBe(true)
+        c.markAsRead()
+        c2 = Notifications.collection._transform _id: "333", user: "user22"
+        expect(c2.canUpdate()).toBe(false)
+        expect(-> c2.marAsread()).toThrow()
+            
+        expect(Users.currentUser).toHaveBeenCalled()
+        expect(Notifications.collection.update).toHaveBeenCalledWith _id: "111",
+            $set:
+                read: true
             

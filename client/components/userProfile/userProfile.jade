@@ -17,8 +17,8 @@ template(name='userProfile')
                 =commentCount
                 
     if isSelf
-        h3 Сообщения
+        h3 Уведомления
         ul.list-group
         +each notifications
-            li.list-group-item
-                +notification
+            <!-- li is intentionally in notification to properly work with read field -->
+            +notification

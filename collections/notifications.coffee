@@ -17,8 +17,17 @@ NotificationsCollection.attachSchema notificationsSchema
 NotificationsCollection.allow
     insert: (userId, doc) ->
         Meteor.isServer
+    update: (userId, doc, fields, modifier) ->
+        if not (_.isEqual(fields, ["read", "updatedAt"]))
+            return false
+        trDoc = NotificationsCollection._transform doc
+        trDoc.canUpdate()
 
 NotificationsCollection.helpers
+    canUpdate: ->
+        user = Users.currentUser()
+        user && (user._id == @user)
+        
     isComment: ->
         @type == "comment"
         
@@ -26,6 +35,13 @@ NotificationsCollection.helpers
         if (!@isComment)
             throw new Meteor.Error "wrong-notification-type", "Notification is not a comment"
         Comments.findById(@event)
+        
+    markAsRead: ->
+        if !@canUpdate()
+            throw new Meteor.Error "permission-denied", "Can't mark notification as read"
+        Notifications.collection.update _id: @_id,
+            $set:
+                read: true
             
 
 Notifications =
@@ -38,7 +54,7 @@ Notifications =
         if user?._id
             @collection.find {
                 user: user._id
-            }, sort: {createdAt: 1}
+            }, sort: {createdAt: -1}
         else
             undefined
             
@@ -47,7 +63,7 @@ Notifications =
             @collection.find {
                 user: Users.currentUser()._id,
                 read: false
-            }, sort: {createdAt: 1}
+            }, sort: {createdAt: -1}
         else
             undefined
 

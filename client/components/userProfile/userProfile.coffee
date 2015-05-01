@@ -10,3 +10,4 @@ Template.userProfile.helpers
         
     notifications: ->
         Notifications.findByUser(Users.currentUser())
+        

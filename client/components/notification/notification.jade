@@ -1,3 +1,5 @@
 template(name='notification')
-    if isComment
-        +comment comment
+    <!-- li is intentionally here to properly work with read field -->
+    li.list-group-item(class=notificationClass)
+        if isComment
+            +comment comment

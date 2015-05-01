@@ -17,7 +17,9 @@ CommentsCollection.allow
     remove: (userId, doc) ->
         trDoc = CommentsCollection._transform doc
         trDoc.canUpdate()
-    update: (userId, doc) ->
+    update: (userId, doc, fields, modifier) ->
+        if not (_.isEqual(fields, ["text", "updatedAt"]))
+            return false
         trDoc = CommentsCollection._transform doc
         trDoc.canUpdate()
         

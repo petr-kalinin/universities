@@ -6,6 +6,7 @@ class @UserProfileController extends ControllerWithTitle
     subscriptions: ->
         @subscribe 'reviews'
         @subscribe 'comments'
+        @subscribe 'universities'
         if Users.currentUser()
             @subscribe 'userNotifications'
         

@@ -21,7 +21,9 @@ ReviewsCollection.allow
     remove: (userId, doc) ->
         trDoc = ReviewsCollection._transform doc
         trDoc.canUpdate()
-    update: (userId, doc) ->
+    update: (userId, doc, fields, modifier) ->
+        if not (_.isEqual(fields, ["text", "updatedAt"]))
+            return false
         trDoc = ReviewsCollection._transform doc
         trDoc.canUpdate()
         
