@@ -23,6 +23,18 @@ CommentsCollection.allow
         trDoc = CommentsCollection._transform doc
         trDoc.canUpdate()
         
+Meteor.methods
+    createComment: (review, text, author) ->
+        baseDoc = 
+            review: review?._id,
+            text: text,
+            author: author?._id
+        doc = Comments.collection._transform baseDoc
+        if not doc.canCreate()
+            throw new Meteor.Error "permission-denied", "Can't not create comments"
+        doc._id = Comments.collection.insert baseDoc
+        Notifications.createFromComment doc
+        
 CommentsCollection.helpers
     canUpdate: ->
         user = Users.currentUser()
@@ -83,16 +95,8 @@ Comments =
             return false
 
     create: (review, text, author) ->
-        baseDoc = 
-            review: review?._id,
-            text: text,
-            author: author?._id
-        doc = @collection._transform baseDoc
-        if not doc.canCreate()
-            throw new Meteor.Error "permission-denied", "Can't not create comments"
-        doc._id = @collection.insert baseDoc
-        Notifications.createFromComment doc
-        
+        Meteor.call "createComment", review, text, author
+                
     find: (review) ->
         @collection.find {
             review: review._id
