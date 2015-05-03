@@ -149,8 +149,10 @@ describe "Comment", ->
             .and.returnValue true
         spyOn Users, "currentUser"
             .and.returnValue _id: "user2"
-        
+
         c = Comments.collection._transform _id: "111", author: "user2"
+        spyOn Comments, "findById"
+            .and.returnValue c
         c.update("abc")
         c.remove()
             
@@ -159,6 +161,7 @@ describe "Comment", ->
             $set:
                 text: "abc"
         expect(Comments.collection.remove).toHaveBeenCalledWith "111"
+        expect(Comments.findById).toHaveBeenCalledWith "111"
         
     it "should be possible to remove for admin", ->
         spyOn Comments.collection, "remove"
@@ -169,6 +172,8 @@ describe "Comment", ->
             .and.returnValue {_id: "user1", isAdmin: -> true}
         
         c = Comments.collection._transform _id: "111", author: "user2"
+        spyOn Comments, "findById"
+            .and.returnValue c
         c.update("abc")
         c.remove()
             
@@ -177,6 +182,7 @@ describe "Comment", ->
             $set:
                 text: "abc"
         expect(Comments.collection.remove).toHaveBeenCalledWith "111"
+        expect(Comments.findById).toHaveBeenCalledWith "111"
         
     it "should return author", ->
         spyOn Users, "findById"

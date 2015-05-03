@@ -42,7 +42,6 @@ NotificationsCollection.helpers
         Notifications.collection.update _id: @_id,
             $set:
                 read: true
-            
 
 Notifications =
     createFromComment: (comment) ->
@@ -66,6 +65,9 @@ Notifications =
             }, sort: {createdAt: -1}
         else
             undefined
+            
+    removeByEventId: (id) ->
+        @collection.remove event: id
 
     collection: NotificationsCollection
     

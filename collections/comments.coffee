@@ -11,12 +11,9 @@ CommentsCollection = new Mongo.Collection 'comments'
 CommentsCollection.attachSchema commentsSchema
 
 CommentsCollection.allow
-    insert: (userId, doc) ->
-        trDoc = CommentsCollection._transform doc
-        trDoc.canCreate()
-    remove: (userId, doc) ->
-        trDoc = CommentsCollection._transform doc
-        trDoc.canUpdate()
+    # no insert and remove allowed
+    # because this is done only via meteor method
+    # to ensure notification is created
     update: (userId, doc, fields, modifier) ->
         if not (_.isEqual(fields, ["text", "updatedAt"]))
             return false
@@ -34,6 +31,13 @@ Meteor.methods
             throw new Meteor.Error "permission-denied", "Can't not create comments"
         doc._id = Comments.collection.insert baseDoc
         Notifications.createFromComment doc
+
+    removeComment: (id) ->
+        comment = Comments.findById id
+        if !comment.canUpdate()
+            throw new Meteor.Error "permission-denied", "Only author can remove comment"
+        Comments.collection.remove comment._id
+        Notifications.removeByEventId comment._id
         
 CommentsCollection.helpers
     canUpdate: ->
@@ -51,10 +55,7 @@ CommentsCollection.helpers
             return false
 
     remove: ->
-        if @canUpdate()
-            Comments.collection.remove @_id
-        else
-            throw new Meteor.Error "permission-denied", "Only author can remove comment"
+        Meteor.call "removeComment", @_id
 
     update: (text) ->
         if not @canUpdate()

@@ -79,4 +79,13 @@ describe "Notification", ->
         expect(Notifications.collection.update).toHaveBeenCalledWith _id: "111",
             $set:
                 read: true
+                    
+    it "should be able to remove by event", ->
+        spyOn Notifications.collection, "remove"
+            .and.returnValue true
+        
+        Notifications.removeByEventId("123")
+        
+        expect(Notifications.collection.remove).toHaveBeenCalledWith event: "123"
+        
             
