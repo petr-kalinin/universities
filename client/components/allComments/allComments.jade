@@ -1,0 +1,10 @@
+template( name='allComments' )
+    h1 Последние комментарии
+        span.small |
+            a(href="/reviews") Последние отзывы
+    ul.list-group
+        +each this
+            li.list-group-item
+                +comment
+    p
+        +nextPageButton
