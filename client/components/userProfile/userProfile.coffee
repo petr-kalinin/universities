@@ -6,7 +6,7 @@ Template.userProfile.helpers
         Comments.findByUser(this).count()
         
     isSelf: ->
-        this._id == Users.currentUser()?._id
+        (this._id == Users.currentUser()?._id) and (!this.hideNotifications)
         
     notifications: ->
         Notifications.findByUser(Users.currentUser())

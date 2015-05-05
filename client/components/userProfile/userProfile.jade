@@ -8,9 +8,10 @@ template(name='userProfile')
             a(href=externalProfile)
                 =externalProfileName
         .col-sm-3.col-xs-6
-            |отзывов
-            h1
-                =reviewCount
+            a(href="/user/{{_id}}/reviews")
+                |отзывов
+                h1
+                    =reviewCount
         .col-sm-3.col-xs-6
             |комментариев
             h1

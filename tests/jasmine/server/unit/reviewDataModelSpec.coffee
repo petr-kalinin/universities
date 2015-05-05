@@ -86,7 +86,19 @@ describe "Review", ->
         expect(a).toBe("111")
         expect(Reviews.collection.find).toHaveBeenCalledWith {
             author: "user"
-        }, {sort: {createdAt: 1}}
+        }, {limit:undefined, sort: {createdAt: 1}}
+                
+    it "should be possible to find by user with limit", ->
+        spyOn Reviews.collection, "find"
+            .and.returnValue "111"
+    
+        user1 = {_id: "user"}
+        a = Reviews.findByUser user1, 20
+
+        expect(a).toBe("111")
+        expect(Reviews.collection.find).toHaveBeenCalledWith {
+            author: "user"
+        }, {limit:20, sort: {createdAt: 1}}
                 
     it "should be possible to find all", ->
         spyOn Reviews.collection, "find"

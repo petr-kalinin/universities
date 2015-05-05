@@ -119,16 +119,17 @@ Reviews =
         sort = createdAt: sort
         @collection.find {}, if limit then limit: limit, sort: sort else sort: sort
         
-    findByUser: (user) ->
+    findByUser: (user, limit = undefined) ->
         @collection.find {
             author: user._id
-        }, sort: {createdAt: 1}
+        }, {limit: limit, sort: {createdAt: 1}}
         
     findOneByUniversity: (university) ->
         @collection.findOne university: university._id
         
     findByUniversity: (university) ->
-        @collection.find {university: university._id}, sort: {createdAt: 1}
+        @collection.find {university: university._id}, 
+            sort: {createdAt: 1}
 
     findById: (id) ->
         @collection.findOne _id: id
