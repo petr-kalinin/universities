@@ -2,9 +2,4 @@ template( name='allReviews' )
     h1 Последние отзывы
         span.small |
             a(href="/comments") Последние комментарии
-    ul.list-group
-        +each this
-            li.list-group-item
-                +review review=this showAll=true
-    p
-        +nextPageButton
+    +reviewsList

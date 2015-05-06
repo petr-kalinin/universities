@@ -1,0 +1,7 @@
+template( name='reviewsList' )
+    ul.list-group
+        +each this
+            li.list-group-item
+                +review review=this showAll=true
+    p
+        +nextPageButton

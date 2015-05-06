@@ -3,3 +3,6 @@ Meteor.publish 'reviewComments', (id) ->
 
 Meteor.publish 'comments', ->
     Comments.findAll()
+
+Meteor.publish 'userComments', (userId, limit = undefined) ->
+    Comments.findByUser(Users.findById(userId), limit)

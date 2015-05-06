@@ -13,9 +13,10 @@ template(name='userProfile')
                 h1
                     =reviewCount
         .col-sm-3.col-xs-6
-            |комментариев
-            h1
-                =commentCount
+            a(href="/user/{{_id}}/comments")
+                |комментариев
+                h1
+                    =commentCount
                 
     if isSelf
         h3 Уведомления
