@@ -6,7 +6,7 @@
 #        'appId'     : vkdata.appId,
 #        'appSecret' : vkdata.secret
 #        
-#    res = vk.setSecureRequests(true)
+#    res = vk.setSecureRequests(true) 
 #    console.log "vk"
 #    console.log res
 #    
@@ -16,8 +16,10 @@
 #        console.log(_o)
 #        vk.setToken(_o.access_token)
 #    
-#        vk.request 'secure.sendNotification', {user_id: 12025501, message: "test"}, 
+#        #vk.request 'secure.sendNotification', {user_id: 12025501, message: "test"},
+#        vk.request 'secure.sendNotification', {user_id: 3691875, message: "test"},
 #            (_dd) ->
+#                console.log "returned from secure.sendNotification"
 #                console.log _dd
 #
 #        
