@@ -1,5 +1,7 @@
 template(name='categoryInUniversity')
     li.list-group-item
+        <!-- note http://stackoverflow.com/questions/17696119/deep-link-to-a-position-in-a-page-using-meteor-js -->
+        a(name="cat_{{category._id}}")
         .h3
             =category.name
             small
@@ -10,6 +12,13 @@ template(name='categoryInUniversity')
                 if hasReviews
                     a(role="button",title="{{showReviewsTitle}}").showReviews
                         span(class="glyphicon glyphicon-eye-{{showReviewsButtonStatus}}")
+            unless isLeaf
+                small
+                    ul.list-inline.subcategories
+                        +each subCategory
+                            li 
+                                a(href="#cat_{{_id}}") 
+                                    =name
         ul.list-group
             if showReviews
                 +each reviews
