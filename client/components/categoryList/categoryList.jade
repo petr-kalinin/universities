@@ -3,6 +3,9 @@ template(name='categoryList')
         ul.list-inline.subcategories
             +each subCategory
                 li 
-                    a(href="#cat_{{_id}}") 
+                    if noLinks
                         =name
+                    else
+                        a.internalLink(href="#cat_{{_id}}") 
+                            =name
 
