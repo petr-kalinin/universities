@@ -13,12 +13,7 @@ template(name='categoryInUniversity')
                     a(role="button",title="{{showReviewsTitle}}").showReviews
                         span(class="glyphicon glyphicon-eye-{{showReviewsButtonStatus}}")
             unless isLeaf
-                small
-                    ul.list-inline.subcategories
-                        +each subCategory
-                            li 
-                                a(href="#cat_{{_id}}") 
-                                    =name
+                +categoryList
         ul.list-group
             if showReviews
                 +each reviews

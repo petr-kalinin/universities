@@ -1,0 +1,8 @@
+template(name='categoryList')
+    small
+        ul.list-inline.subcategories
+            +each subCategory
+                li 
+                    a(href="#cat_{{_id}}") 
+                        =name
+

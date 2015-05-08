@@ -1,6 +1,8 @@
 template(name='university')
     h1
         =name
+    .h3
+        +categoryList category=root
     ul.list-group
         +each categories
             +categoryInUniversity category=this university=..
