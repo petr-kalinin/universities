@@ -3,8 +3,9 @@ template(name='categoryList')
         ul.list-inline.subcategories
             +each subCategory
                 li 
-                    if noLinks
-                        =name
+                    if ../noLinks
+                        span(title="Разверните категорию, чтобы видеть разделы для подкатегорий")
+                            =name
                     else
                         a.internalLink(href="#cat_{{_id}}") 
                             =name
