@@ -16,7 +16,7 @@ template(name='categoryInUniversity')
             if showReviews
                 +each reviews
                     li.list-group-item
-                        +review review=this category=../category
+                        +review review=this category=../category showCategory=true
             if isLeafOrCollapsed
                 if canCreate
                     +addReview
