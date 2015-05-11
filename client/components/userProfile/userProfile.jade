@@ -19,6 +19,7 @@ template(name='userProfile')
                     =commentCount
                 
     if isSelf
+        +userSettings
         h3 Уведомления
         ul.list-group
         +each notifications
