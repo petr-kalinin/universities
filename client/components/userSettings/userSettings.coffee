@@ -11,3 +11,9 @@ Template.userSettings.helpers
     notifications: ->
         Notifications.findByUser(Users.currentUser())
         
+    sendConfirmationEmailText: ->
+        "Повторно выслать подтерждение"
+        
+    emailVerified: ->
+        true
+        
