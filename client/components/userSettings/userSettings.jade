@@ -1,35 +1,19 @@
 template(name='userSettings')
     h3 Настройки
     form.set-email
-        .div.form-group.has-feedback
-            input#email.form-control(type="email", placeholder="Адрес email")
-            span.glyphicon.glyphicon-ok.form-control-feedback.text-success
-            p.help-block
-                | На указанный адрес будут приходить оповещения о комментариях к вашим отзывам и подобных событиях. Чтобы не получать эти отзывы, просто не указывайте адрес email.
-                span.email-note
-                    span.glyphicon.glyphicon-ok.text-success 
-                    | Адрес подтвержден.
-        .div.form-group.has-feedback
-            input#email.form-control(type="email", placeholder="Адрес email")
-            span.glyphicon.glyphicon-warning-sign.form-control-feedback.text-warning
-            p.help-block
-                | На указанный адрес будут приходить оповещения о комментариях к вашим отзывам и подобных событиях. Чтобы не получать эти отзывы, просто не указывайте адрес email.
-                span.email-note
-                    span.glyphicon.glyphicon-warning-sign.text-warning 
-                    | Письмо для подтверждения адреса выслано.
-                    a(href="#") Выслать письмо повторно.
-        .div.form-group.has-feedback
-            input#email.form-control(type="email", placeholder="Адрес email")
-            span.glyphicon.glyphicon-remove.form-control-feedback.text-danger
-            p.help-block
-                | На указанный адрес будут приходить оповещения о комментариях к вашим отзывам и подобных событиях. Чтобы не получать эти отзывы, просто не указывайте адрес email.
-                span.email-note
-                    span.glyphicon.glyphicon-remove.text-danger
-                    | Вы не указали email, письма с оповещением не будут приходить.
-        .div.form-group.has-feedback.edited
-            .input-group
+        div.form-group.has-feedback
+            div(class="{{inputGroupIfEdited}}")
                 input#email.form-control(type="email", placeholder="Адрес email")
-                span.input-group-btn
-                    button.btn.btn-primary Ok
+                if isEdited
+                    span.input-group-btn
+                        button.btn.btn-primary Ok
+            unless isEdited
+                span(class="glyphicon form-control-feedback {{glyphClass}}")
             p.help-block
                 | На указанный адрес будут приходить оповещения о комментариях к вашим отзывам и подобных событиях. Чтобы не получать эти отзывы, просто не указывайте адрес email.
+                unless isEdited
+                    span.email-note
+                        span(class="glyphicon {{glyphClass}}")
+                        =comment
+                        if needVerificationLink
+                            a(href="#") Выслать письмо повторно.
