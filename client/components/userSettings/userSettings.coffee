@@ -1,3 +1,7 @@
+Template.userSettings.events
+    "keyup #email": (e) ->
+        Session.set("currentEmailEdited", event.target.value)
+
 UserEmailEdited =
     isEdited: ->
         true
@@ -41,7 +45,21 @@ UserEmailAbsent =
     needVerificationLink: ->
         false
 
-UserEmail = UserEmailNonVerified
+UserEmail = ->
+    if (Users.currentUser()?.emails?.length?) and (Users.currentUser().emails.length > 0)
+        email = Users.currentUser().emails[0]
+    else
+        email = {address: "", verified: undefined}
+    currentEmailEdited = Session.get("currentEmailEdited")
+    if currentEmailEdited and (currentEmailEdited != email.address)
+        UserEmailEdited
+    else
+        if email.address == ""
+            UserEmailAbsent
+        else
+            if email.verified
+                UserEmailVerified
+            else UserEmailNonVerified
 
 Template.userSettings.helpers
     reviewCount: -> 
@@ -57,19 +75,19 @@ Template.userSettings.helpers
         Notifications.findByUser(Users.currentUser())
         
     inputGroupIfEdited: ->
-        if UserEmail.isEdited()
+        if UserEmail().isEdited()
             "input-group"
         else
             ""
             
     isEdited: ->
-        UserEmail.isEdited()
+        UserEmail().isEdited()
         
     glyphClass: ->
-        UserEmail.glyphClass()
+        UserEmail().glyphClass()
         
     comment: ->
-        UserEmail.comment()
+        UserEmail().comment()
 
     needVerificationLink: ->
-        UserEmail.needVerificationLink()
+        UserEmail().needVerificationLink()
