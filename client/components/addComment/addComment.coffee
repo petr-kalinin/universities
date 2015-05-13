@@ -5,7 +5,7 @@ Template.addComment.events
             Comments.create this, text, Users.currentUser()
             event.target.value = ""
             false
-    "submit": (event) ->
+    "submit .new-comment": (event) ->
         text = event.target.text.value
         Comments.create this, text, Users.currentUser()
         event.target.text.value = ""

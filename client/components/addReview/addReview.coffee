@@ -5,7 +5,7 @@ Template.addReview.events
             Reviews.create this.university, this.category, text, Users.currentUser()
             event.target.value = ""
             false
-    "submit": (event) ->
+    "submit .new-review": (event) ->
         text = event.target.text.value
         Reviews.create this.university, this.category, text, Users.currentUser()
         event.target.text.value = ""

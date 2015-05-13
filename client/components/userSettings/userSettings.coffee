@@ -1,6 +1,12 @@
 Template.userSettings.events
-    "keyup #email": (e) ->
-        Session.set("currentEmailEdited", event.target.value)
+    "input #email": (e) ->
+        Session.set("currentEmailEdited", e.target.value)
+
+    "submit .set-email": (e) ->
+        Session.set("currentEmailEdited", undefined)
+        Users.currentUser().setEmail(e.target.email.value)
+        e.preventDefault()
+        false
 
 UserEmailEdited =
     isEdited: ->
@@ -46,8 +52,8 @@ UserEmailAbsent =
         false
 
 UserEmail = ->
-    if (Users.currentUser()?.emails?.length?) and (Users.currentUser().emails.length > 0)
-        email = Users.currentUser().emails[0]
+    if (Users.currentUser()?.email())
+        email = Users.currentUser().email()
     else
         email = {address: "", verified: undefined}
     currentEmailEdited = Session.get("currentEmailEdited")
@@ -73,6 +79,13 @@ Template.userSettings.helpers
         
     notifications: ->
         Notifications.findByUser(Users.currentUser())
+        
+    emailAddress: ->
+        email = @email()
+        if email
+            email.address
+        else
+            ""
         
     inputGroupIfEdited: ->
         if UserEmail().isEdited()

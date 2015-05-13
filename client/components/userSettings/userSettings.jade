@@ -3,7 +3,7 @@ template(name='userSettings')
     form.set-email
         div.form-group.has-feedback
             div(class="{{inputGroupIfEdited}}")
-                input#email.form-control(type="email", placeholder="Адрес email")
+                input#email.form-control(type="email", placeholder="Адрес email", value="{{emailAddress}}")
                 if isEdited
                     span.input-group-btn
                         button.btn.btn-primary Ok
