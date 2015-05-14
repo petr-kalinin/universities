@@ -593,6 +593,17 @@ hr {
 }
 
 
+// iOS "clickable elements" fix for role="button"
+//
+// Fixes "clickability" issue (and more generally, the firing of events such as focus as well)
+// for traditionally non-focusable elements with role="button"
+// see https://developer.mozilla.org/en-US/docs/Web/Events/click#Safari_Mobile
+// Upstream patch for normalize.css submitted: https://github.com/necolas/normalize.css/pull/379 - remove this fix once that is merged
+
+[role="button"] {
+  cursor: pointer;
+}
+
 
 // @import "bootstrap/less/type.less"
 //
@@ -835,7 +846,7 @@ abbr[data-original-title] {
 }
 .initialism {
   font-size: 90%;
-  text-transform: uppercase;
+  .text-uppercase();
 }
 
 // Blockquotes
@@ -1098,7 +1109,7 @@ address {
   &:hover,
   &:focus {
     color: @link-hover-color;
-    text-decoration: underline;
+    text-decoration: @link-hover-decoration;
     background-color: transparent;
   }
   &[disabled],
@@ -1167,6 +1178,7 @@ input[type="button"] {
   font-family: 'Glyphicons Halflings';
   src: url('@{icon-font-path}@{icon-font-name}.eot');
   src: url('@{icon-font-path}@{icon-font-name}.eot?#iefix') format('embedded-opentype'),
+       url('@{icon-font-path}@{icon-font-name}.woff2') format('woff2'),
        url('@{icon-font-path}@{icon-font-name}.woff') format('woff'),
        url('@{icon-font-path}@{icon-font-name}.ttf') format('truetype'),
        url('@{icon-font-path}@{icon-font-name}.svg#@{icon-font-svg-id}') format('svg');
@@ -1387,6 +1399,76 @@ input[type="button"] {
 .glyphicon-cloud-upload           { &:before { content: "\e198"; } }
 .glyphicon-tree-conifer           { &:before { content: "\e199"; } }
 .glyphicon-tree-deciduous         { &:before { content: "\e200"; } }
+.glyphicon-cd                     { &:before { content: "\e201"; } }
+.glyphicon-save-file              { &:before { content: "\e202"; } }
+.glyphicon-open-file              { &:before { content: "\e203"; } }
+.glyphicon-level-up               { &:before { content: "\e204"; } }
+.glyphicon-copy                   { &:before { content: "\e205"; } }
+.glyphicon-paste                  { &:before { content: "\e206"; } }
+// The following 2 Glyphicons are omitted for the time being because
+// they currently use Unicode codepoints that are outside the
+// Basic Multilingual Plane (BMP). Older buggy versions of WebKit can't handle
+// non-BMP codepoints in CSS string escapes, and thus can't display these two icons.
+// Notably, the bug affects some older versions of the Android Browser.
+// More info: https://github.com/twbs/bootstrap/issues/10106
+// .glyphicon-door                   { &:before { content: "\1f6aa"; } }
+// .glyphicon-key                    { &:before { content: "\1f511"; } }
+.glyphicon-alert                  { &:before { content: "\e209"; } }
+.glyphicon-equalizer              { &:before { content: "\e210"; } }
+.glyphicon-king                   { &:before { content: "\e211"; } }
+.glyphicon-queen                  { &:before { content: "\e212"; } }
+.glyphicon-pawn                   { &:before { content: "\e213"; } }
+.glyphicon-bishop                 { &:before { content: "\e214"; } }
+.glyphicon-knight                 { &:before { content: "\e215"; } }
+.glyphicon-baby-formula           { &:before { content: "\e216"; } }
+.glyphicon-tent                   { &:before { content: "\26fa"; } }
+.glyphicon-blackboard             { &:before { content: "\e218"; } }
+.glyphicon-bed                    { &:before { content: "\e219"; } }
+.glyphicon-apple                  { &:before { content: "\f8ff"; } }
+.glyphicon-erase                  { &:before { content: "\e221"; } }
+.glyphicon-hourglass              { &:before { content: "\231b"; } }
+.glyphicon-lamp                   { &:before { content: "\e223"; } }
+.glyphicon-duplicate              { &:before { content: "\e224"; } }
+.glyphicon-piggy-bank             { &:before { content: "\e225"; } }
+.glyphicon-scissors               { &:before { content: "\e226"; } }
+.glyphicon-bitcoin                { &:before { content: "\e227"; } }
+.glyphicon-btc                    { &:before { content: "\e227"; } }
+.glyphicon-xbt                    { &:before { content: "\e227"; } }
+.glyphicon-yen                    { &:before { content: "\00a5"; } }
+.glyphicon-jpy                    { &:before { content: "\00a5"; } }
+.glyphicon-ruble                  { &:before { content: "\20bd"; } }
+.glyphicon-rub                    { &:before { content: "\20bd"; } }
+.glyphicon-scale                  { &:before { content: "\e230"; } }
+.glyphicon-ice-lolly              { &:before { content: "\e231"; } }
+.glyphicon-ice-lolly-tasted       { &:before { content: "\e232"; } }
+.glyphicon-education              { &:before { content: "\e233"; } }
+.glyphicon-option-horizontal      { &:before { content: "\e234"; } }
+.glyphicon-option-vertical        { &:before { content: "\e235"; } }
+.glyphicon-menu-hamburger         { &:before { content: "\e236"; } }
+.glyphicon-modal-window           { &:before { content: "\e237"; } }
+.glyphicon-oil                    { &:before { content: "\e238"; } }
+.glyphicon-grain                  { &:before { content: "\e239"; } }
+.glyphicon-sunglasses             { &:before { content: "\e240"; } }
+.glyphicon-text-size              { &:before { content: "\e241"; } }
+.glyphicon-text-color             { &:before { content: "\e242"; } }
+.glyphicon-text-background        { &:before { content: "\e243"; } }
+.glyphicon-object-align-top       { &:before { content: "\e244"; } }
+.glyphicon-object-align-bottom    { &:before { content: "\e245"; } }
+.glyphicon-object-align-horizontal{ &:before { content: "\e246"; } }
+.glyphicon-object-align-left      { &:before { content: "\e247"; } }
+.glyphicon-object-align-vertical  { &:before { content: "\e248"; } }
+.glyphicon-object-align-right     { &:before { content: "\e249"; } }
+.glyphicon-triangle-right         { &:before { content: "\e250"; } }
+.glyphicon-triangle-left          { &:before { content: "\e251"; } }
+.glyphicon-triangle-bottom        { &:before { content: "\e252"; } }
+.glyphicon-triangle-top           { &:before { content: "\e253"; } }
+.glyphicon-console                { &:before { content: "\e254"; } }
+.glyphicon-superscript            { &:before { content: "\e255"; } }
+.glyphicon-subscript              { &:before { content: "\e256"; } }
+.glyphicon-menu-left              { &:before { content: "\e257"; } }
+.glyphicon-menu-right             { &:before { content: "\e258"; } }
+.glyphicon-menu-down              { &:before { content: "\e259"; } }
+.glyphicon-menu-up                { &:before { content: "\e260"; } }
 
 
 
@@ -1786,11 +1868,9 @@ input[type="button"] {
 .tab-content {
   > .tab-pane {
     display: none;
-    visibility: hidden;
   }
   > .active {
     display: block;
-    visibility: visible;
   }
 }
 
@@ -1855,7 +1935,6 @@ input[type="button"] {
 
 .hidden {
   display: none !important;
-  visibility: hidden !important;
 }
 
 
@@ -1994,7 +2073,7 @@ output {
   background-color: @input-bg;
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid @input-border;
-  border-radius: @input-border-radius;
+  border-radius: @input-border-radius; // Note: This has no effect on <select>s in some browsers, due to the limited stylability of <select>s in CSS.
   .box-shadow(inset 0 1px 1px rgba(0,0,0,.075));
   .transition(~"border-color ease-in-out .15s, box-shadow ease-in-out .15s");
 
@@ -2012,9 +2091,13 @@ output {
   &[disabled],
   &[readonly],
   fieldset[disabled] & {
-    cursor: @cursor-disabled;
     background-color: @input-bg-disabled;
-    opacity: 1; // iOS fix for unreadable disabled content
+    opacity: 1; // iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655
+  }
+
+  &[disabled],
+  fieldset[disabled] & {
+    cursor: @cursor-disabled;
   }
 
   // Reset height for `textarea`s
@@ -2039,41 +2122,26 @@ input[type="search"] {
 // Special styles for iOS temporal inputs
 //
 // In Mobile Safari, setting `display: block` on temporal inputs causes the
-// text within the input to become vertically misaligned.
-// As a workaround, we set a pixel line-height that matches the
-// given height of the input. Since this fucks up everything else, we have to
-// appropriately reset it for Internet Explorer and the size variations.
+// text within the input to become vertically misaligned. As a workaround, we
+// set a pixel line-height that matches the given height of the input, but only
+// for Safari. See https://bugs.webkit.org/show_bug.cgi?id=139848
 
-input[type="date"],
-input[type="time"],
-input[type="datetime-local"],
-input[type="month"] {
-  line-height: @input-height-base;
-  // IE8+ misaligns the text within date inputs, so we reset
-  line-height: @line-height-base ~"\0";
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  input[type="date"],
+  input[type="time"],
+  input[type="datetime-local"],
+  input[type="month"] {
+    line-height: @input-height-base;
 
-  &.input-sm {
-    line-height: @input-height-small;
-    line-height: @line-height-small ~"\0";
-  }
-  &.input-lg {
-    line-height: @input-height-large;
-    line-height: @line-height-large ~"\0";
-  }
-}
+    &.input-sm,
+    .input-group-sm & {
+      line-height: @input-height-small;
+    }
 
-// IE 11 hack to reverse the iOS temporal input hack.
-_:-ms-fullscreen, :root input[type="date"],
-_:-ms-fullscreen, :root input[type="time"],
-_:-ms-fullscreen, :root input[type="datetime-local"],
-_:-ms-fullscreen, :root input[type="month"] {
-  line-height: @line-height-base;
-
-  &.input-sm {
-    line-height: @line-height-small;
-  }
-  &.input-lg {
-    line-height: @line-height-large;
+    &.input-lg,
+    .input-group-lg & {
+      line-height: @input-height-large;
+    }
   }
 }
 
@@ -2084,7 +2152,7 @@ _:-ms-fullscreen, :root input[type="month"] {
 // horizontal forms, use the predefined grid classes.
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: @form-group-margin-bottom;
 }
 
 
@@ -2124,6 +2192,7 @@ _:-ms-fullscreen, :root input[type="month"] {
 // Radios and checkboxes on same line
 .radio-inline,
 .checkbox-inline {
+  position: relative;
   display: inline-block;
   padding-left: 20px;
   margin-bottom: 0;
@@ -2180,6 +2249,7 @@ input[type="checkbox"] {
   padding-bottom: (@padding-base-vertical + 1);
   // Remove default margin from `p`
   margin-bottom: 0;
+  min-height: (@line-height-computed + @font-size-base);
 
   &.input-lg,
   &.input-sm {
@@ -2193,15 +2263,40 @@ input[type="checkbox"] {
 //
 // Build on `.form-control` with modifier classes to decrease or increase the
 // height and font-size of form controls.
+//
+// The `.form-group-* form-control` variations are sadly duplicated to avoid the
+// issue documented in https://github.com/twbs/bootstrap/issues/15074.
 
-.input-sm,
-.form-group-sm .form-control {
+.input-sm {
   .input-size(@input-height-small; @padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @input-border-radius-small);
 }
+.form-group-sm {
+  .form-control {
+    .input-size(@input-height-small; @padding-small-vertical; @padding-small-horizontal; @font-size-small; @line-height-small; @input-border-radius-small);
+  }
+  .form-control-static {
+    height: @input-height-small;
+    padding: @padding-small-vertical @padding-small-horizontal;
+    font-size: @font-size-small;
+    line-height: @line-height-small;
+    min-height: (@line-height-computed + @font-size-small);
+  }
+}
 
-.input-lg,
-.form-group-lg .form-control {
+.input-lg {
   .input-size(@input-height-large; @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @input-border-radius-large);
+}
+.form-group-lg {
+  .form-control {
+    .input-size(@input-height-large; @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large; @input-border-radius-large);
+  }
+  .form-control-static {
+    height: @input-height-large;
+    padding: @padding-large-vertical @padding-large-horizontal;
+    font-size: @font-size-large;
+    line-height: @line-height-large;
+    min-height: (@line-height-computed + @font-size-large);
+  }
 }
 
 
@@ -2334,8 +2429,7 @@ input[type="checkbox"] {
     }
 
     // Remove default margin on radios/checkboxes that were used for stacking, and
-    // then undo the floating of radios and checkboxes to match (which also avoids
-    // a bug in WebKit: https://github.com/twbs/bootstrap/issues/1969).
+    // then undo the floating of radios and checkboxes to match.
     .radio,
     .checkbox {
       display: inline-block;
@@ -2501,7 +2595,6 @@ input[type="checkbox"] {
 
     &.collapse {
       display: block !important;
-      visibility: visible !important;
       height: auto !important;
       padding-bottom: 0; // Override default setting
       overflow: visible !important;
@@ -2765,6 +2858,8 @@ input[type="checkbox"] {
 }
 // Menu position and menu caret support for dropups via extra dropup class
 .navbar-fixed-bottom .navbar-nav > li > .dropdown-menu {
+  margin-bottom: 0;
+  .border-top-radius(@navbar-border-radius);
   .border-bottom-radius(0);
 }
 
@@ -3193,7 +3288,9 @@ input[type="checkbox"] {
     position: relative;
     top: -1px;
   }
-  .btn-xs & {
+
+  .btn-xs &,
+  .btn-group-xs > .btn & {
     top: 0;
     padding: 1px 5px;
   }
@@ -3209,11 +3306,20 @@ input[type="checkbox"] {
   }
 
   // Account for badges in navs
-  a.list-group-item.active > &,
+  .list-group-item.active > &,
   .nav-pills > .active > a > & {
     color: @badge-active-color;
     background-color: @badge-active-bg;
   }
+
+  .list-group-item > & {
+    float: right;
+  }
+
+  .list-group-item > & + & {
+    margin-right: 5px;
+  }
+
   .nav-pills > li > a > & {
     margin-left: 3px;
   }
@@ -3258,14 +3364,6 @@ input[type="checkbox"] {
   &:last-child {
     margin-bottom: 0;
     .border-bottom-radius(@list-group-border-radius);
-  }
-
-  // Align badges within list items
-  > .badge {
-    float: right;
-  }
-  > .badge + .badge {
-    margin-right: 5px;
   }
 }
 
@@ -3383,6 +3481,7 @@ a.list-group-item {
   // Additional properties for button version
   // iOS requires the button element instead of an anchor tag.
   // If you want the anchor version, it requires `href="#"`.
+  // See https://developer.mozilla.org/en-US/docs/Web/Events/click#Safari_Mobile
   button& {
     padding: 0;
     cursor: pointer;
@@ -3407,12 +3506,13 @@ a.list-group-item {
   height: 0;
   margin-left: 2px;
   vertical-align: middle;
-  border-top:   @caret-width-base solid;
+  border-top:   @caret-width-base dashed;
   border-right: @caret-width-base solid transparent;
   border-left:  @caret-width-base solid transparent;
 }
 
 // The dropdown wrapper (div)
+.dropup,
 .dropdown {
   position: relative;
 }
@@ -3587,7 +3687,7 @@ a.list-group-item {
   .dropdown-menu {
     top: auto;
     bottom: 100%;
-    margin-bottom: 1px;
+    margin-bottom: 2px;
   }
 }
 
