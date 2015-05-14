@@ -48,6 +48,8 @@ Notifications =
         user = Reviews.findById(comment.review).author
         baseDoc = user: user, type: "comment", event: comment._id, read: false, notified: false
         @collection.insert baseDoc
+        if Meteor.isServer
+            Users.findById(user).sendEmail("New notification", Meteor.absoluteUrl() + "review/" + comment.review)
         
     findByUser: (user) ->
         if user?._id

@@ -10,8 +10,8 @@ Meteor.methods
             return
         if email
             Users.collection.update Meteor.userId(),
-                $set:
-                    emails: [{address: email, verified: false}]
+                {$set:
+                    emails: [{address: email, verified: false}]}
         else
             Users.collection.update Meteor.userId(),
                 $unset:
@@ -52,6 +52,25 @@ Meteor.users.helpers
         curEmail = @email()
         if (!curEmail) or (newEmail != curEmail.address)
             Meteor.call "setUserEmail", newEmail
+    
+    sendVerificationEmail: ->
+        if Meteor.isClient
+            return
+        if (@_id != Meteor.userId())
+            return
+        Accounts.sendVerificationEmail(@_id)
+        
+    sendEmail: (subject, text) ->
+        if Meteor.isClient
+            return
+        email = @email()
+        if not (email?.verified)
+            throw new Meteor.Error "email-not-verified", "User email has not been verified"
+        Email.send
+            from: "Обзор университетов <universities@kalinin.nnov.ru>",
+            to: email.address,
+            subject: subject,
+            text: text
             
 Users = 
     currentUser: ->
