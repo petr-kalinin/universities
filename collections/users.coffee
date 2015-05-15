@@ -66,11 +66,13 @@ Meteor.users.helpers
         email = @email()
         if not (email?.verified)
             throw new Meteor.Error "email-not-verified", "User email has not been verified"
+        console.log "sending email..."
         Email.send
             from: "Обзор университетов <universities@kalinin.nnov.ru>",
             to: email.address,
             subject: subject,
             text: text
+        console.log "done"
             
 Users = 
     currentUser: ->
