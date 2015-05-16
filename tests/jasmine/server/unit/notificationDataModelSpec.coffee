@@ -15,7 +15,7 @@ describe "Notification", ->
                 type: "comment", 
                 event: "event1",
                 read: false,
-                notified: false
+                notified: []
                     
     it "should be able to find by user", ->
         spyOn Notifications.collection, "find"
