@@ -49,6 +49,8 @@ NotificationsCollection.helpers
         Meteor.absoluteUrl() + "review/" + @comment().review
         
     markAsNotified: (method) ->
+        if Meteor.isClient
+            return
         Notifications.collection.update _id: @_id,
             $push:
                 notified: method
@@ -59,8 +61,6 @@ Notifications =
         user = Reviews.findById(comment.review).author
         baseDoc = user: user, type: "comment", event: comment._id, read: false, notified: []
         @collection.insert baseDoc
-#        if Meteor.isServer
-#            Users.findById(user).sendEmail("New notification", Meteor.absoluteUrl() + "review/" + comment.review)
         
     findById: (id)->
         @collection.findOne id

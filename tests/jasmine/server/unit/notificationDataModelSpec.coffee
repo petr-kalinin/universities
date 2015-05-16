@@ -16,6 +16,15 @@ describe "Notification", ->
                 event: "event1",
                 read: false,
                 notified: []
+
+    it "should be able to find by its id", ->
+        spyOn Notifications.collection, "findOne"
+            .and.returnValue "foo"
+        
+        result = Notifications.findById("bar")
+        
+        expect(result).toBe("foo")
+        expect(Notifications.collection.findOne).toHaveBeenCalledWith "bar"
                     
     it "should be able to find by user", ->
         spyOn Notifications.collection, "find"
@@ -29,9 +38,11 @@ describe "Notification", ->
                 user: "user1"
             }, sort: {createdAt: -1}
  
-    it "should be able to get comment", ->
+    it "should be able to get comment and link", ->
+        spyOn Meteor, "absoluteUrl"
+            .and.returnValue "http://a.b/"
         spyOn Comments, "findById"
-            .and.returnValue "123"
+            .and.returnValue review: "123"
 
         iscomment = Notifications.collection._transform 
             type: "comment"
@@ -42,8 +53,10 @@ describe "Notification", ->
         
         expect(iscomment.isComment()).toBe(true)
         expect(noncomment.isComment()).toBe(false)
-        expect(iscomment.comment()).toBe("123")
+        expect(iscomment.comment()).toEqual(review: "123")
         expect(noncomment.comment).toThrow()
+        
+        expect(iscomment.link()).toBe("http://a.b/review/123")
         
         expect(Comments.findById).toHaveBeenCalledWith "qwe"
  
@@ -61,6 +74,18 @@ describe "Notification", ->
                 user: "123",
                 read: false
             }, sort: {createdAt: -1}
+    
+    it "should be anle to find non notified", ->
+        spyOn Notifications.collection, "find"
+            .and.returnValue "foo"
+        
+        x = Notifications.findNonNotified("email")
+        
+        expect(x).toBe("foo")
+        expect(Notifications.collection.find).toHaveBeenCalledWith {
+            read: false,
+            notified: {"$ne": "email"}
+        }, sort: {createdAt: 1}
         
     it "should be possible to update for author", ->
         spyOn Notifications.collection, "update"
@@ -79,6 +104,17 @@ describe "Notification", ->
         expect(Notifications.collection.update).toHaveBeenCalledWith _id: "111",
             $set:
                 read: true
+                    
+    it "should be possible to mark as notified", ->
+        spyOn Notifications.collection, "update"
+            .and.returnValue true
+        
+        c = Notifications.collection._transform _id: "111"
+        c.markAsNotified("email")
+        
+        expect(Notifications.collection.update).toHaveBeenCalledWith _id: "111",
+            $push:
+                notified: "email"
                     
     it "should be able to remove by event", ->
         spyOn Notifications.collection, "remove"
