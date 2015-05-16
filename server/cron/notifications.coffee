@@ -33,6 +33,6 @@ class EmailNotifier
 SyncedCron.add
     name: 'sendEmailNotifications',
     schedule: (parser) ->
-        return parser.text('every 2 seconds');
+        return parser.text('every 1 minute');
     job: -> 
         (new EmailNotifier()).sendNotifications()
