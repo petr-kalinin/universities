@@ -7,6 +7,9 @@ Template.userSettings.events
         Users.currentUser().setEmail(e.target.email.value)
         e.preventDefault()
         false
+        
+    "click .resendVerification": () ->
+        Users.currentUser().sendVerificationEmail()
 
 UserEmailEdited =
     isEdited: ->

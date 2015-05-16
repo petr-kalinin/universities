@@ -12,10 +12,17 @@ Meteor.methods
             Users.collection.update Meteor.userId(),
                 {$set:
                     emails: [{address: email, verified: false}]}
+            Meteor.call "sendVerificationEmail", -> 
+                true
         else
             Users.collection.update Meteor.userId(),
                 $unset:
                     emails: ""
+                        
+Meteor.methods
+    sendVerificationEmail: ->
+        Meteor.user().sendVerificationEmail()
+
 
 Meteor.users.helpers
     isAdmin: ->
@@ -51,14 +58,21 @@ Meteor.users.helpers
     setEmail: (newEmail) ->
         curEmail = @email()
         if (!curEmail) or (newEmail != curEmail.address)
-            Meteor.call "setUserEmail", newEmail
+            Meteor.call "setUserEmail", newEmail, -> 
+                true
+                
+    
     
     sendVerificationEmail: ->
         if Meteor.isClient
+            Meteor.call "sendVerificationEmail", ->
+                true
             return
+        console.log "Sending verification email to ", @_id
         if (@_id != Meteor.userId())
             return
         Accounts.sendVerificationEmail(@_id)
+        console.log "sent"
         
     sendEmail: (subject, text) ->
         if Meteor.isClient

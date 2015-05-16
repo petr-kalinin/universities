@@ -14,11 +14,14 @@ Meteor.startup ->
 #        subject: "Meteor Can Send Emails via Gmail",
 #        text: "Its pretty easy to send emails via gmail."
 
-#    Accounts.emailTemplates.from = 'Обзор университетов <universities@kalinin.nnov.ru>'
-#    Accounts.emailTemplates.siteName = 'Обзор университетов'
-#
-#    Accounts.emailTemplates.verifyEmail.subject = (user) ->
-#        'Подтвердите свой адрес электронной почты'
-#
-#    Accounts.emailTemplates.verifyEmail.text = (user, url) ->
-#        'Нажмите, чтобы подтвердить адрес электронной почты:' + url
+    Accounts.emailTemplates.from = 'Обзор университетов <universities@kalinin.nnov.ru>'
+    Accounts.emailTemplates.siteName = 'Обзор университетов'
+
+    Accounts.emailTemplates.verifyEmail.subject = (user) ->
+        'Подтвердите свой адрес электронной почты'
+
+    Accounts.emailTemplates.verifyEmail.text = (user, url) ->
+        'Здравствуйте!\n\n'+
+        'Вы или кто-то еще добавил этот адрес к своему аккаунту на сайте ' + Meteor.absoluteUrl() + '.\n' +
+        'Перейдите по следующей ссылке, чтобы подтвердить адрес электронной почты: ' + url + '\n' +
+        'Если вы не добавляли этот адрес, ничего делать не требуется.'
