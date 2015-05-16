@@ -56,6 +56,8 @@ Meteor.users.helpers
             undefined
             
     setEmail: (newEmail) ->
+        if (Meteor.userId() != @_id)
+            throw new Meteor.Error "permission-denied", "Can set email only for self"
         curEmail = @email()
         if (!curEmail) or (newEmail != curEmail.address)
             Meteor.call "setUserEmail", newEmail, -> 
