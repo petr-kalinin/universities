@@ -5,3 +5,7 @@ template(name='user')
         if badge
             span.badge(title="Новые уведомления")
                 =badge
+        if checkEmail
+            unless emailWorking
+                span.emailBadge(title="{{emailHint}}")
+                    span.glyphicon.glyphicon-warning-sign.text-warning

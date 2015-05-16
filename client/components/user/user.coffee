@@ -1,5 +1,9 @@
-#Template.user.helpers
-#    name: -> 
-#        this.name()
-#    vkPhoto: -> this.vkPhoto()
-#    vkHref: -> this.vkHref()
+Template.user.helpers
+    emailWorking: ->
+        @email()?.verified
+        
+    emailHint: ->
+        if @email()?
+            "Email адрес не подтвержден"
+        else
+            "Email адрес не указан"

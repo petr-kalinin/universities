@@ -60,8 +60,6 @@ Meteor.users.helpers
         if (!curEmail) or (newEmail != curEmail.address)
             Meteor.call "setUserEmail", newEmail, -> 
                 true
-                
-    
     
     sendVerificationEmail: ->
         if Meteor.isClient
