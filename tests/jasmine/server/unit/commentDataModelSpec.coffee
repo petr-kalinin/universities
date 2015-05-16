@@ -19,7 +19,6 @@ describe "Comment", ->
         expectedDoc._id = 123
         call = Notifications.createFromComment.calls.mostRecent().args[0]
         expect(call).toEqual Comments.collection._transform expectedDoc
-            
                 
     it "should not be created without required fields", ->
         spyOn Comments.collection, "insert"
@@ -149,6 +148,8 @@ describe "Comment", ->
             .and.returnValue true
         spyOn Users, "currentUser"
             .and.returnValue _id: "user2"
+        spyOn Notifications, "removeByEventId"
+            .and.returnValue true
 
         c = Comments.collection._transform _id: "111", author: "user2"
         spyOn Comments, "findById"
@@ -162,6 +163,7 @@ describe "Comment", ->
                 text: "abc"
         expect(Comments.collection.remove).toHaveBeenCalledWith "111"
         expect(Comments.findById).toHaveBeenCalledWith "111"
+        expect(Notifications.removeByEventId).toHaveBeenCalledWith "111"
         
     it "should be possible to remove for admin", ->
         spyOn Comments.collection, "remove"
@@ -184,18 +186,20 @@ describe "Comment", ->
         expect(Comments.collection.remove).toHaveBeenCalledWith "111"
         expect(Comments.findById).toHaveBeenCalledWith "111"
         
-    it "should return author", ->
+    it "should return author, review and createdDats", ->
         spyOn Users, "findById"
             .and.returnValue "123"
         spyOn Reviews, "findById"
             .and.returnValue "456"
         
-        c = Comments.collection._transform author: "user", review: "rev", text: ""
+        c = Comments.collection._transform author: "user", review: "rev", text: "", createdAt: "1/2/3"
         a = c.getAuthor()
         r = c.getReview()
+        d = c.createdDate()
             
         expect(a).toBe "123"
         expect(r).toBe "456"
+        expect(d).toBe "1/2/3"
         expect(Users.findById).toHaveBeenCalledWith "user"
         expect(Reviews.findById).toHaveBeenCalledWith "rev"
         
@@ -207,3 +211,31 @@ describe "Comment", ->
         
         expect(result).toBe("foo")
         expect(Comments.collection.findOne).toHaveBeenCalledWith "bar"
+        
+    it "should return edited state", ->
+        spyOn Session, "get"
+            .and.callFake (name)->
+                if name == "comments_isEdited_1"
+                    true
+                else if name == "comments_isEdited_2"
+                    false
+                else if name == "comments_isEdited_3"
+                    undefined
+                else throw "Wrong name for Session.get"
+                
+        spyOn Session, "set"
+            .and.returnValue true
+        
+        c1 = Comments.collection._transform _id: "1"
+        c2 = Comments.collection._transform _id: "2"
+        c3 = Comments.collection._transform _id: "3"
+        
+        expect(c1.isEdited()).toBe true
+        expect(c2.isEdited()).toBe false
+        expect(Session.set).not.toHaveBeenCalled()
+        
+        expect(c3.isEdited()).toBe false
+        expect(Session.set).toHaveBeenCalledWith            "comments_isEdited_3", false
+        
+        c1.toggleIsEdited()
+        expect(Session.set).toHaveBeenCalledWith            "comments_isEdited_1", false
