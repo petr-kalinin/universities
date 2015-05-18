@@ -7,6 +7,8 @@ Meteor.startup ->
         'appId'     : vkdata.appId,
         'appSecret' : vkdata.secret
         
+    @vkNotifier = vk
+        
     res = vk.setSecureRequests(true) 
     console.log "vk"
     console.log res
