@@ -40,7 +40,7 @@ class VkNotifier extends BasicNotifier
                 "Перейдите по ссылке " + Meteor.absoluteUrl() + "user/" + user + " , чтобы просмотреть все уведомления, " +
                 "или по отдельным ссылкам ниже: \n\n" +
                 links.join("\n")
-        vkNotifier.request 'secure.sendNotification', {user_id: Users.findById(user).services.vk.id, message: text},
+        Users.findById(user).sendVkNotification text
 
 SyncedCron.add
     name: 'sendEmailNotifications',

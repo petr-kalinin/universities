@@ -87,6 +87,10 @@ Meteor.users.helpers
             subject: subject,
             text: text
         console.log "done"
+        
+    sendVkNotification: (text) ->
+        vkNotifier.request 'secure.sendNotification', {user_id: @services.vk.id, message: text},
+
             
 Users = 
     currentUser: ->
