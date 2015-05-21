@@ -80,16 +80,35 @@ Meteor.users.helpers
         email = @email()
         if not (email?.verified)
             throw new Meteor.Error "email-not-verified", "User email has not been verified"
-        console.log "sending email..."
+        @markNotificationTime "email"
         Email.send
             from: "Обзор университетов <universities@kalinin.nnov.ru>",
             to: email.address,
             subject: subject,
             text: text
-        console.log "done"
         
     sendVkNotification: (text) ->
-        vkNotifier.request 'secure.sendNotification', {user_id: @services.vk.id, message: text},
+        deltaT = (new Date()) - @getNotificationTime("vk")
+        console.log deltaT
+#        if deltaT < 1000*1000*60*60*24/2.9
+#            throw new Meteor.Error "vk-notification-too-frequent", "Vk notification has been sent to frequent"
+        console.log "sending to vk"
+        @markNotificationTime "vk"
+        vkNotifier.request 'secure.sendNotification', {user_id: @services.vk.id, message: text}
+        
+    getNotificationTime: (method) ->
+        time = this?.notificationTimes?[method]
+        if not time?
+            time = new Date(0)
+        console.log "getNotificationTime returning", time
+        return time
+    
+    markNotificationTime: (method) ->
+        if Meteor.isClient
+            return
+        modifier = $set: {}
+        modifier.$set["notificationTimes." + method] = new Date()
+        Users.collection.update @_id, modifier
 
             
 Users = 

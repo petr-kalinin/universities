@@ -7,12 +7,15 @@ class BasicNotifier
             if not (userData[user]?)
                 userData[user] = []
             userData[user].push n
-            Notifications.findById(n._id).markAsNotified(@method)
         for user, data of userData
             count = data.length
             links = (Notifications.findById(n._id).link() for n in data)
             console.log count, links
-            @notifyUser(user, count, links)
+            try
+                @notifyUser(user, count, links)
+                Notifications.findById(n._id).markAsNotified(@method) for n in data
+            catch e
+                console.log "Exception while sending notification: ", e
             
 class EmailNotifier extends BasicNotifier
     method: "email"

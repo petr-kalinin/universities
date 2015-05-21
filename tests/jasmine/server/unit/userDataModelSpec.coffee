@@ -136,6 +136,8 @@ describe "User", ->
     it "should send email", ->
         spyOn Email, "send"
             .and.returnValue true
+        spyOn Users.collection, "update"
+            .and.returnValue true
         
         noEmail = Users.collection._transform {}
         noEmail2 = Users.collection._transform 
@@ -143,6 +145,7 @@ describe "User", ->
         notVerified = Users.collection._transform 
             emails: [{address: "a@b", verified: false}]
         good = Users.collection._transform 
+            _id: "123"
             emails: [{address: "a@c", verified: true}]
             
         expect(->noEmail.sendEmail("a", "b")).toThrow()
@@ -156,4 +159,47 @@ describe "User", ->
             to: "a@c",
             subject: "c",
             text: "d"
+        expect(Users.collection.update).toHaveBeenCalledWith "123",
+            $set:
+                "notificationTimes.email": jasmine.any(Date)
+
+    xit "should send vk notifications", ->
+        spyOn vkNotifier, "request"
+            .and.returnValue true
+        spyOn Users.collection, "update"
+            .and.returnValue true
         
+        canSend = Users.collection._transform
+            _id: "12"
+            services:
+                vk:
+                    id: 123
+
+        cantSend = Users.collection._transform
+            services:
+                vk:
+                    id: 456
+            notificationTimes:
+                vk: new Date()
+            
+        expect(->cantSend.sendVkNotification("b")).toThrow()
+        expect(vkNotifier.request).not.toHaveBeenCalled()
+            
+        canSend.sendVkNotification("c")
+        expect(vkNotifier.request).toHaveBeenCalledWith 'secure.sendNotification', {user_id: 123, message: "c"}
+        expect(Users.collection.update).toHaveBeenCalledWith "12",
+            $set:
+                "notificationTimes.vk": jasmine.any(Date)
+            
+    it "should return notification time", ->
+        noDate = Users.collection._transform {}
+        noDateMethod = Users.collection._transform 
+            notificationTimes: {email: "123"}
+        withDate = Users.collection._transform
+            notificationTimes: {test: new Date(456789)}
+            
+        expect(noDate.getNotificationTime("test")).toEqual(new Date(0))
+        expect(noDateMethod.getNotificationTime("test")).toEqual(new Date(0))
+        expect(withDate.getNotificationTime("test")).toEqual(new Date(456789))
+            
+                
