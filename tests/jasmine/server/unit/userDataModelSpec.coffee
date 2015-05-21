@@ -181,6 +181,12 @@ describe "User", ->
                     id: 456
             notificationTimes:
                 vk: new Date()
+        cantSend2 = Users.collection._transform
+            services:
+                vk:
+                    id: 456
+            notificationTimes:
+                vk: new Date() #set to 8 hours ago
             
         expect(->cantSend.sendVkNotification("b")).toThrow()
         expect(vkNotifier.request).not.toHaveBeenCalled()
