@@ -3,10 +3,10 @@ Template.reviewComments.helpers
         Comments.find(this)
         
     universityName: ->
-        this.getUniversity().name
+        this.getUniversity()?.name
 
     categoryName: ->
-        this.getCategory().name
+        this.getCategory()?.name
 
     canCreate: ->
         Comments.userCanCreate()

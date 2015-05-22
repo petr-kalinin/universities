@@ -46,7 +46,7 @@ NotificationsCollection.helpers
     link: -> 
         if (!@isComment)
             throw new Meteor.Error "wrong-notification-type", "Unknown notification type"
-        Meteor.absoluteUrl() + "review/" + @comment().review
+        Meteor.absoluteUrl() + "review/" + @comment()?.review
         
     markAsNotified: (method) ->
         if Meteor.isClient
