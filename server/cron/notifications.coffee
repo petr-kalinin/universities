@@ -48,13 +48,15 @@ class VkNotifier extends BasicNotifier
 SyncedCron.add
     name: 'sendEmailNotifications',
     schedule: (parser) ->
-        return parser.text('every 10 seconds');
+#        return parser.text('every 10 seconds');
+        return parser.text('every 5 minutes');
     job: -> 
         (new EmailNotifier()).sendNotifications()
 
 SyncedCron.add
     name: 'sendVkNotifications',
     schedule: (parser) ->
-        return parser.text('every 10 seconds');
+#        return parser.text('every 10 seconds');
+        return parser.text('every 5 minutes');
     job: -> 
         (new VkNotifier()).sendNotifications()
