@@ -88,9 +88,9 @@ Meteor.users.helpers
             text: text
         
     sendVkNotification: (text) ->
-        deltaT = (new Date()) - @getNotificationTime("vk")
+        deltaT = new Date() - @getNotificationTime("vk")
         console.log deltaT
-        if deltaT < 1000*1000*60*60*24/2.9
+        if deltaT < 1000*60*60*24/2.9
             throw new Meteor.Error "vk-notification-too-frequent", "Vk notification has been sent to frequent"
         console.log "sending to vk"
         @markNotificationTime "vk"
